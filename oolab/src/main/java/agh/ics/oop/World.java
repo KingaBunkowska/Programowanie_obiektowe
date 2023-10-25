@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
+import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.Vector2d;
 
 public class World {
 
@@ -9,7 +11,19 @@ public class World {
         OptionsParser optionsParser = new OptionsParser();
         MoveDirection[] moveDirections = optionsParser.convert(args);
         run(moveDirections);
-        System.out.println("System zakończył działanie");
+        System.out.println("System zakończył działanie\nJednak nie");
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+        System.out.println("I teraz zakończył działanie na serio\nZnowu nie");
+
+        System.out.println(MapDirection.NORTH.toUnitVector().toString());
+        System.out.println("I teraz tak :)");
+
+
+
     }
 
 
