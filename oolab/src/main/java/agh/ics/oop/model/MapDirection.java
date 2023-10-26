@@ -6,7 +6,7 @@ public enum MapDirection {
     SOUTH(new Vector2d(0,-1)),
     WEST (new Vector2d(-1,0));
 
-    final Vector2d unitValue;
+    final private Vector2d unitValue;
     private MapDirection(Vector2d vector2d) {
         this.unitValue = vector2d;
     }
