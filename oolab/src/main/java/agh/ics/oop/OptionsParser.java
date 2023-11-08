@@ -2,33 +2,22 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class OptionsParser{
 
-    public MoveDirection[] convert(String[] args){
+    public List<MoveDirection> convert(String[] args){
 
-        int validArgumentsNo = 0;
+        List<MoveDirection> moveDirections = new LinkedList<>();
 
         for (String arg : args) {
-            if (arg.equals("f") || arg.equals("l") || arg.equals("r") || arg.equals("b")) {
-                validArgumentsNo++;
+            switch (arg) {
+                case "f" -> moveDirections.add(MoveDirection.FORWARD);
+                case "b" -> moveDirections.add(MoveDirection.BACKWARD);
+                case "r" -> moveDirections.add(MoveDirection.RIGHT);
+                case "l" -> moveDirections.add(MoveDirection.LEFT);
             }
-        }
-
-        if (validArgumentsNo==0)
-            return null;
-
-        MoveDirection[] moveDirections = new MoveDirection[validArgumentsNo];
-        int curr_index = 0;
-
-        for(int i = 0; i<args.length; i++){
-            switch(args[i]){
-                case "f" -> moveDirections[curr_index] = MoveDirection.FORWARD;
-                case "b" -> moveDirections[curr_index] = MoveDirection.BACKWARD;
-                case "r" -> moveDirections[curr_index] = MoveDirection.RIGHT;
-                case "l" -> moveDirections[curr_index] = MoveDirection.LEFT;
-                default -> curr_index = Math.max(curr_index-1, 0);
-            }
-            curr_index++;
         }
 
         return moveDirections;
