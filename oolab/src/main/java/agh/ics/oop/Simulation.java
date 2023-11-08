@@ -6,17 +6,18 @@ import agh.ics.oop.model.Vector2d;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
 
     private List<Animal> animals = new ArrayList<>();
-    private List<MoveDirection> moves = new ArrayList<>();
+    private List<MoveDirection> moves;
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
         for (Vector2d animalPosition : animalsPositions){
             this.animals.add(new Animal(animalPosition));
         }
-        this.moves.addAll(moves);
+        this.moves = moves;
     }
 
     public void run(){
