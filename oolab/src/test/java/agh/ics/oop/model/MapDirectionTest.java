@@ -1,3 +1,5 @@
+package agh.ics.oop.model;
+
 import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.Vector2d;
 import org.junit.Test;

@@ -15,7 +15,7 @@ public enum MapDirection {
     }
 
     public String toString() {
-        return this.string
+        return this.string;
     }
 
     public Vector2d toUnitVector() {
