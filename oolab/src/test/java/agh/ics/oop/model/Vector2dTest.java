@@ -1,3 +1,5 @@
+package agh.ics.oop.model;
+
 import agh.ics.oop.model.Vector2d;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

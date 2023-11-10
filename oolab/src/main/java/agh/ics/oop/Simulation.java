@@ -11,10 +11,11 @@ import java.util.List;
 
 public class Simulation {
 
-    private List<Animal> animals = new ArrayList<>();
+    private List<Animal> animals;
     private List<MoveDirection> moves;
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
-        for (Vector2d animalPosition : animalsPositions){
+        this.animals = new ArrayList<>(animalsPositions.size());
+        for (Vector2d animalPosition: animalsPositions){
             this.animals.add(new Animal(animalPosition));
         }
         this.moves = moves;
@@ -28,7 +29,7 @@ public class Simulation {
             currAnimalIdx++;
         }
     }
-    public List<Animal> getAnimals() {
+    List<Animal> getAnimals() {
         return Collections.unmodifiableList(animals);
     }
 
