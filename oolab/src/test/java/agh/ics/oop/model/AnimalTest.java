@@ -1,6 +1,8 @@
 package agh.ics.oop.model;
 
+
 import agh.ics.oop.model.*;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -27,14 +29,18 @@ public class AnimalTest {
         Vector2d position = new Vector2d(4, 4);
         Animal animal = new Animal(position);
 
+
         String expected = "^";
+
         String result = animal.toString();
 
         assertEquals(expected, result);
 
         Animal defAnimal = new Animal();
 
+
         String expected2 = "^";
+
         String result2 = defAnimal.toString();
 
         assertEquals(expected2, result2);
@@ -62,6 +68,7 @@ public class AnimalTest {
     @Test
     public void testMove() {
         Animal animal1 = new Animal(new Vector2d(2, 2));
+
         WorldMap<Animal, Vector2d> map1 = new RectangularMap(5, 5);
         map1.move(animal1, MoveDirection.FORWARD);
         assertEquals(new Vector2d(2, 3), animal1.getPosition());
@@ -101,6 +108,7 @@ public class AnimalTest {
         WorldMap<Animal, Vector2d> map8 = new RectangularMap(5, 5);
         map8.move(animal8, MoveDirection.RIGHT);
         map8.move(animal8, MoveDirection.FORWARD);
+
         assertEquals(new Vector2d(4, 2), animal8.getPosition());
     }
 

@@ -11,8 +11,9 @@ import java.util.List;
 
 public class Simulation {
 
-    private List<Animal> animals = new ArrayList<>();
+    private List<Animal> animals;
     private List<MoveDirection> moves;
+
     private WorldMap map;
 
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap<Animal, Vector2d> map){
@@ -21,6 +22,7 @@ public class Simulation {
             Animal newAnimal = new Animal(animalPosition);
             this.animals.add(newAnimal);
             map.place(newAnimal);
+
         }
         this.moves = moves;
 
@@ -34,7 +36,7 @@ public class Simulation {
             currAnimalIdx++;
         }
     }
-    public List<Animal> getAnimals() {
+    List<Animal> getAnimals() {
         return Collections.unmodifiableList(animals);
     }
 
