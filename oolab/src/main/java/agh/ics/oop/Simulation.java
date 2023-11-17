@@ -19,8 +19,9 @@ public class Simulation {
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
             Animal newAnimal = new Animal(animalPosition);
-            this.animals.add(newAnimal);
-            map.place(newAnimal);
+            if (map.place(newAnimal)){
+                this.animals.add(newAnimal);
+            }
         }
         this.moves = moves;
 

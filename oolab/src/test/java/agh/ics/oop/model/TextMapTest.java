@@ -56,5 +56,23 @@ public class TextMapTest {
         textMap.move("smok", MoveDirection.FORWARD);
         assertNull(textMap.findElementPosition("smok"));
 
+        //changing orientation
+        TextMap textMap1 = new TextMap();
+        textMap1.place("Ala");
+        textMap1.place("ma");
+        textMap1.place("też");
+        textMap1.place("kota");
+
+        assertEquals("też", textMap1.objectAt(2));
+        textMap1.move("też", MoveDirection.RIGHT);
+        assertEquals(textMap1.getTextOrientation("też"), MapDirection.SOUTH);
+        textMap1.move("też", MoveDirection.FORWARD);
+        assertEquals("też", textMap1.objectAt(2));
+
+        textMap1.move("też", MoveDirection.RIGHT);
+        textMap1.move("też", MoveDirection.FORWARD);
+        assertEquals(textMap1.getTextOrientation("też"), MapDirection.WEST);
+        assertEquals("też", textMap1.objectAt(1));
+        assertEquals("ma", textMap1.objectAt(2));
     }
 }
