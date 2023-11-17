@@ -1,7 +1,9 @@
 package agh.ics.oop;
 
 import agh.ics.oop.Simulation;
+
 import agh.ics.oop.model.*;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -24,9 +26,11 @@ public class SimulationTest {
                 MoveDirection.RIGHT,
                 MoveDirection.BACKWARD
         );
+
         WorldMap<Animal, Vector2d> map1 = new RectangularMap(5, 5);
 
         Simulation simulation1 = new Simulation(positions1, moves1, map1);
+
         simulation1.run();
 
         Animal firstAnimal = simulation1.getAnimals().get(0);
@@ -46,9 +50,11 @@ public class SimulationTest {
                 MoveDirection.RIGHT,
                 MoveDirection.FORWARD
         );
+
         WorldMap<Animal, Vector2d> map2 = new RectangularMap(5, 5);
 
         Simulation simulation2 = new Simulation(positions2, moves2, map2);
+
         simulation2.run();
 
         Animal animal = simulation2.getAnimals().get(0);
@@ -57,9 +63,11 @@ public class SimulationTest {
 
         List<Vector2d> positions3 = new ArrayList<>();
         List<MoveDirection> moves3 = new ArrayList<>();
+
         WorldMap<Animal, Vector2d> map3 = new RectangularMap(5, 5);
 
         Simulation simulation3 = new Simulation(positions3, moves3, map3);
+
         simulation3.run();
 
         // Check that the simulation runs without errors for empty input

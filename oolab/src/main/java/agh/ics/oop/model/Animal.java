@@ -11,8 +11,7 @@ public class Animal {
     }
 
     public Animal(){
-        this.orientation = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
+        this(new Vector2d(2,2));
     }
 
     public String toString() {
