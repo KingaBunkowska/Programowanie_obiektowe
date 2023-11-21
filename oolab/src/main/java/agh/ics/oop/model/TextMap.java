@@ -60,10 +60,6 @@ public class TextMap implements WorldMap<String, Integer> {
         return this.size;
     }
 
-    @Override
-    public Integer wrapPosition(Integer integer) {
-        return integer;
-    }
 
     private Integer calculateNewPosition(Integer currentPosition, MoveDirection direction) {
         Integer result=currentPosition;

@@ -15,6 +15,4 @@ public interface WorldMap<T, P> extends MoveValidator<P> {
     public P getLowerLeft();
 
     public P getUpperRight();
-
-    P wrapPosition(P p);
 }

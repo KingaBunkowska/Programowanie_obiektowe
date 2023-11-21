@@ -20,15 +20,10 @@ public class Simulation {
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
             Animal newAnimal = new Animal(animalPosition);
-<<<<<<< HEAD
+
             if (map.place(newAnimal)){
                 this.animals.add(newAnimal);
             }
-=======
-            this.animals.add(newAnimal);
-            map.place(newAnimal);
-
->>>>>>> 9d7ec0d1ae685e458f62503feefac644326ab329
         }
         this.moves = moves;
 

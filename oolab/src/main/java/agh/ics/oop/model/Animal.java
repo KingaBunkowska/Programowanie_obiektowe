@@ -45,12 +45,4 @@ public class Animal {
         return orientation;
     }
 
-    protected void setPosition(Vector2d position){
-        this.position = position;
-    }
-
-    protected void setOrientation(MapDirection orientation){
-        this.orientation = orientation;
-    }
-
 }

@@ -5,14 +5,11 @@ import java.util.Map;
 
 public class RectangularMap implements WorldMap<Animal, Vector2d>{
     private final Map<Vector2d, Animal> animals = new HashMap<>();
-    private final int width;
-    private final int height;
+
     private final Vector2d boarderStart = new Vector2d(0, 0);
     private final Vector2d boarderEnd;
 
     public RectangularMap(int width, int height) {
-        this.width = width;
-        this.height = height;
         this.boarderEnd = new Vector2d(width - 1, height - 1);
     }
 
@@ -62,13 +59,6 @@ public class RectangularMap implements WorldMap<Animal, Vector2d>{
     }
 
     @Override
-    public Vector2d wrapPosition(Vector2d position) {
-        int x = position.getX() % (boarderEnd.getX() + 1);
-        int y = position.getY() % (boarderEnd.getY() + 1);
-        return new Vector2d(x, y);
-    }
-
-    @Override
     public boolean canMoveTo(Vector2d position) {
         if (position.follows(boarderStart) && position.precedes(boarderEnd)){
             return !animals.containsKey(position);
@@ -76,11 +66,4 @@ public class RectangularMap implements WorldMap<Animal, Vector2d>{
         return false;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth(){
-        return width;
-    }
 }
