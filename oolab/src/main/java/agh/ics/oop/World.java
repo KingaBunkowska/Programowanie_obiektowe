@@ -30,11 +30,11 @@ public class World {
 
         List<MoveDirection> directions = optionsParser.convert(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3, 4));
-        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
+        WorldMap map = new RectangularMap(5, 5);
         Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
 
-        MapVisualizer<Animal, Vector2d> mapVisualizer = new MapVisualizer<Animal, Vector2d>(map);
+        MapVisualizer mapVisualizer = new MapVisualizer(map);
         System.out.println(mapVisualizer.draw(map.getLowerLeft(), map.getUpperRight()));
 
         System.out.println("I teraz tak :)");

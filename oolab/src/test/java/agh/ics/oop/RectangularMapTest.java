@@ -1,7 +1,8 @@
-package agh.ics.oop.model;
+package agh.ics.oop;
 
 import agh.ics.oop.Simulation;
 import agh.ics.oop.model.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class RectangularMapTest {
         // valid moves
         assertFalse(map.isOccupied(new Vector2d(2, 2)));
         assertTrue(map.isOccupied(new Vector2d(2, 4)));
-        assertEquals(simulation.getAnimals().get(0).getOrientation(), MapDirection.NORTH);
+        Assert.assertEquals(simulation.getAnimals().get(0).getOrientation(), MapDirection.NORTH);
         assertEquals(simulation.getAnimals().get(0), map.objectAt(new Vector2d(2, 4)));
 
         // move to boarder

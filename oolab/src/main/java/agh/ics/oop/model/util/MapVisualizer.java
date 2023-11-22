@@ -1,51 +1,84 @@
 package agh.ics.oop.model.util;
 
-import agh.ics.oop.model.WorldMap;
 import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.WorldMap;
 
-public class MapVisualizer<T, P> {
+/**
+ * The map visualizer converts the {@link WorldMap} map into a string
+ * representation.
+ *
+ * @author apohllo, idzik
+ */
+public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
+    private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
-    private final WorldMap<T, P> map;
+    private final WorldMap map;
 
-    public MapVisualizer(WorldMap<T, P> map) {
+    /**
+     * Initializes the MapVisualizer with an instance of map to visualize.
+     *
+     * @param map
+     */
+    public MapVisualizer(WorldMap map) {
         this.map = map;
     }
 
-    public String draw() {
-        return draw(map.getLowerLeft(), map.getUpperRight());
-    }
-
-    public String draw(P lowerLeft, P upperRight) {
+    /**
+     * Convert selected region of the map into a string. It is assumed that the
+     * indices of the map will have no more than two characters (including the
+     * sign).
+     *
+     * @param lowerLeft  The lower left corner of the region that is drawn.
+     * @param upperRight The upper right corner of the region that is drawn.
+     * @return String representation of the selected region of the map.
+     */
+    public String draw(Vector2d lowerLeft, Vector2d upperRight) {
         StringBuilder builder = new StringBuilder();
-        for (int i = (Integer) upperRight.getClass().cast(lowerLeft); i >= (Integer) lowerLeft.getClass().cast(upperRight); i--) {
-            if (i == (Integer) upperRight.getClass().cast(lowerLeft)) {
-                builder.append(drawHeader());
+        for (int i = upperRight.getY() + 1; i >= lowerLeft.getY() - 1; i--) {
+            if (i == upperRight.getY() + 1) {
+                builder.append(drawHeader(lowerLeft, upperRight));
             }
             builder.append(String.format("%3d: ", i));
-            for (int j = (Integer) lowerLeft.getClass().cast(lowerLeft); j <= (Integer) lowerLeft.getClass().cast(upperRight); j++) {
-                builder.append(CELL_SEGMENT);
-                builder.append(drawObject(map.objectAt(map.wrapPosition((P) new Vector2d(j, i)))));
+            for (int j = lowerLeft.getX(); j <= upperRight.getX() + 1; j++) {
+                if (i < lowerLeft.getY() || i > upperRight.getY()) {
+                    builder.append(drawFrame(j <= upperRight.getX()));
+                } else {
+                    builder.append(CELL_SEGMENT);
+                    if (j <= upperRight.getX()) {
+                        builder.append(drawObject(new Vector2d(j, i)));
+                    }
+                }
             }
-            builder.append(CELL_SEGMENT);
             builder.append(System.lineSeparator());
         }
         return builder.toString();
     }
 
-    private String drawHeader() {
+    private String drawFrame(boolean innerSegment) {
+        if (innerSegment) {
+            return FRAME_SEGMENT + FRAME_SEGMENT;
+        } else {
+            return FRAME_SEGMENT;
+        }
+    }
+
+    private String drawHeader(Vector2d lowerLeft, Vector2d upperRight) {
         StringBuilder builder = new StringBuilder();
         builder.append(" y\\x ");
-        for (int j = (Integer) map.getLowerLeft().getClass().cast(map.getLowerLeft()); j <= (Integer) map.getUpperRight().getClass().cast(map.getUpperRight()); j++) {
+        for (int j = lowerLeft.getX(); j < upperRight.getX() + 1; j++) {
             builder.append(String.format("%2d", j));
         }
         builder.append(System.lineSeparator());
         return builder.toString();
     }
 
-    private String drawObject(T object) {
-        if (object != null) {
-            return object.toString();
+    private String drawObject(Vector2d currentPosition) {
+        if (this.map.isOccupied(currentPosition)) {
+            Object object = this.map.objectAt(currentPosition);
+            if (object != null) {
+                return object.toString();
+            }
         }
         return EMPTY_CELL;
     }

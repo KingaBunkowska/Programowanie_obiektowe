@@ -7,16 +7,17 @@ import agh.ics.oop.model.WorldMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Simulation {
 
-    private List<Animal> animals;
+    private List<Animal> animals = new LinkedList<>();
     private List<MoveDirection> moves;
 
     private WorldMap map;
 
-    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap<Animal, Vector2d> map){
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map){
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
             Animal newAnimal = new Animal(animalPosition);
@@ -37,7 +38,7 @@ public class Simulation {
             currAnimalIdx++;
         }
     }
-    List<Animal> getAnimals() {
+    protected List<Animal> getAnimals() {
         return Collections.unmodifiableList(animals);
     }
 

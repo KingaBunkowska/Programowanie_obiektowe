@@ -1,18 +1,18 @@
 package agh.ics.oop.model;
 
-public interface WorldMap<T, P> extends MoveValidator<P> {
+public interface WorldMap extends MoveValidator{
 
-    boolean place(T object);
+    boolean place(Animal object);
 
-    void move(T object, MoveDirection direction);
+    void move(Animal object, MoveDirection direction);
 
-    void move(T object, MoveDirection moveDirection, MoveValidator<P> moveValidator);
+    void move(Animal object, MoveDirection moveDirection, MoveValidator moveValidator);
 
-    boolean isOccupied(P position);
+    boolean isOccupied(Vector2d position);
 
-    T objectAt(P position);
+    Animal objectAt(Vector2d position);
 
-    public P getLowerLeft();
+    public Vector2d getLowerLeft();
 
-    public P getUpperRight();
+    public Vector2d getUpperRight();
 }

@@ -3,7 +3,7 @@ package agh.ics.oop.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RectangularMap implements WorldMap<Animal, Vector2d>{
+public class RectangularMap implements WorldMap{
     private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     private final Vector2d boarderStart = new Vector2d(0, 0);
@@ -28,7 +28,7 @@ public class RectangularMap implements WorldMap<Animal, Vector2d>{
     }
 
     @Override
-    public void move(Animal animal, MoveDirection moveDirection, MoveValidator<Vector2d> moveValidator) {
+    public void move(Animal animal, MoveDirection moveDirection, MoveValidator moveValidator) {
         Vector2d oldPosition = animal.getPosition();
         animal.move(moveDirection, moveValidator);
         Vector2d newPosition = animal.getPosition();
