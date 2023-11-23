@@ -1,10 +1,9 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection orientation;
     private Vector2d position;
 
-    // czy nie powinno tu byc sprawdzenie czy positon jest faktycznie w boardzie? Czy zostanie to dodane kiedy zaimplementowana zostanie plansza?
     public Animal(Vector2d position){
         this.orientation = MapDirection.NORTH;
         this.position = position;

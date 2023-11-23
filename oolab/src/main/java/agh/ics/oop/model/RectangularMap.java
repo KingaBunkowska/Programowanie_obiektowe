@@ -1,10 +1,6 @@
 package agh.ics.oop.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class RectangularMap implements WorldMap{
-    private final Map<Vector2d, Animal> animals = new HashMap<>();
+public class RectangularMap extends AbstractWorldMap {
 
     private final Vector2d boarderStart = new Vector2d(0, 0);
     private final Vector2d boarderEnd;
@@ -14,37 +10,16 @@ public class RectangularMap implements WorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public boolean place(WorldElement animal) {
         if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
-            animals.put(animal.getPosition(), animal);
+            animals.put(animal.getPosition(), (Animal) animal);
             return true;
         }
         return false;
     }
 
     @Override
-    public void move(Animal animal, MoveDirection moveDirection) {
-        move(animal, moveDirection, this);
-    }
-
-    @Override
-    public void move(Animal animal, MoveDirection moveDirection, MoveValidator moveValidator) {
-        Vector2d oldPosition = animal.getPosition();
-        animal.move(moveDirection, moveValidator);
-        Vector2d newPosition = animal.getPosition();
-
-        if (!oldPosition.equals(newPosition)) {
-            this.animals.remove(oldPosition);
-            this.animals.put(newPosition, animal);
-        }
-    }
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return animals.containsKey(position);
-    }
-
-    @Override
-    public Animal objectAt(Vector2d position) {
+    public WorldElement objectAt(Vector2d position) {
         return animals.get(position);
     }
 
@@ -58,12 +33,12 @@ public class RectangularMap implements WorldMap{
         return boarderEnd;
     }
 
+
     @Override
     public boolean canMoveTo(Vector2d position) {
         if (position.follows(boarderStart) && position.precedes(boarderEnd)){
-            return !animals.containsKey(position);
+            return super.canMoveTo(position);
         }
         return false;
     }
-
 }

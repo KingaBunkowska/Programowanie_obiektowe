@@ -1,8 +1,5 @@
 package agh.ics.oop.model;
 
-
-import agh.ics.oop.model.*;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
