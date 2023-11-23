@@ -1,9 +1,7 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
+import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.List;
 
@@ -13,7 +11,6 @@ public class World {
         System.out.println("System wystartował");
         OptionsParser optionsParser = new OptionsParser();
         List<MoveDirection> moveDirections= optionsParser.convert(args);
-        System.out.println("TU");
         run(moveDirections);
         System.out.println("System zakończył działanie\nJednak nie");
         Vector2d position1 = new Vector2d(1,2);
@@ -32,9 +29,21 @@ public class World {
 
         List<MoveDirection> directions = optionsParser.convert(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3, 4));
-        Simulation simulation = new Simulation(positions, directions);
+        WorldMap map = new RectangularMap(5, 5);
+        Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
 
+        MapVisualizer mapVisualizer = new MapVisualizer(map);
+        System.out.println(mapVisualizer.draw(map.getLowerLeft(), map.getUpperRight()));
+        System.out.println("____");
+        System.out.println(map.getElements());
+        System.out.println("____");
+
+        GrassField grassField = new GrassField(10);
+        grassField.place(animal);
+        grassField.place(animal2);
+        System.out.println(grassField);
+        System.out.println(grassField.getElements());
         System.out.println("I teraz tak :)");
 
 
