@@ -3,7 +3,7 @@ import java.util.List;
 
 public interface WorldMap extends MoveValidator{
 
-    boolean place(WorldElement object);
+    boolean place(Animal object);
 
     void move(WorldElement object, MoveDirection direction);
 

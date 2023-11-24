@@ -20,7 +20,7 @@ public class GrassFieldTest {
 
         for (WorldElement grass : grassField.getElements()){
             assertTrue(grass.getPosition().precedes(endOfGrassGeneration));
-            assertFalse(grassField.place(grass));
+            assertFalse(grassField.placeGrass((Grass) grass));
         }
     }
 
@@ -32,19 +32,19 @@ public class GrassFieldTest {
         assertEquals(new Vector2d(0, 0), grassField.getLowerLeft());
         assertEquals(new Vector2d(0, 0), grassField.getUpperRight());
 
-        grassField.place(new Grass(new Vector2d(1, 1)));
+        grassField.placeGrass(new Grass(new Vector2d(1, 1)));
 
         // one element
         assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
         assertEquals(new Vector2d(1, 1), grassField.getUpperRight());
 
-        grassField.place(new Grass(new Vector2d(1, 100)));
+        grassField.placeGrass(new Grass(new Vector2d(1, 100)));
 
         // two elements (in line)
         assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
         assertEquals(new Vector2d(1, 100), grassField.getUpperRight());
 
-        grassField.place(new Grass(new Vector2d(4, 5)));
+        grassField.placeGrass(new Grass(new Vector2d(4, 5)));
 
         // three elements
         assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
@@ -89,7 +89,7 @@ public class GrassFieldTest {
 
         // Test placing grass where animal is
         Grass grass = new Grass(position);
-        assertTrue(map.place(grass));
+        assertTrue(map.placeGrass(grass));
 
     }
 

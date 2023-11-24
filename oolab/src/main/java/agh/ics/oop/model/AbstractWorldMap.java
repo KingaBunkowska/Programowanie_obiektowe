@@ -22,9 +22,9 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public boolean place(WorldElement animal) {
+    public boolean place(Animal animal) {
         if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
-            animals.put(animal.getPosition(), (Animal) animal);
+            animals.put(animal.getPosition(), animal);
             return true;
         }
         return false;
@@ -39,7 +39,7 @@ public abstract class AbstractWorldMap implements WorldMap{
 
         if (!oldPosition.equals(newPosition)) {
             animals.remove(oldPosition);
-            animals.put(newPosition, (Animal)animal);
+            animals.put(newPosition, (Animal) animal);
         }
     }
 

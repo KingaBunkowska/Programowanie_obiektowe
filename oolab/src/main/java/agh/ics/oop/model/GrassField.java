@@ -13,21 +13,15 @@ public class GrassField extends AbstractWorldMap {
         while (i<noOfGrasses){
             Vector2d newGrassPosition = new Vector2d(random.nextInt(range), random.nextInt(range));
             if (!isOccupied(newGrassPosition)) {
-                this.place(new Grass(newGrassPosition));
+                this.placeGrass(new Grass(newGrassPosition));
                 i++;
             }
         }
     }
 
-    @Override
-    public boolean place(WorldElement object) {
-        if (object instanceof Grass && !isOccupiedByGrass(object.getPosition())) {
-            grasses.put(object.getPosition(), (Grass) object);
-            return true;
-        }
-
-        if (object instanceof Animal && canMoveTo(object.getPosition())) {
-            animals.put(object.getPosition(), (Animal) object);
+    public boolean placeGrass(Grass object) {
+        if (!isOccupiedByGrass(object.getPosition())) {
+            grasses.put(object.getPosition(),object);
             return true;
         }
         return false;
