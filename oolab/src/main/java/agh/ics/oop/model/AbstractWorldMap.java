@@ -8,35 +8,38 @@ import java.util.Map;
 public abstract class AbstractWorldMap implements WorldMap{
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
+    protected final Map<Vector2d, Grass> grasses = new HashMap<>();
     @Override
     public boolean canMoveTo(Vector2d p){
-
         return !animals.containsKey(p);
     };
 
     @Override
-    public List<WorldElement> getElements() {
-        return new LinkedList<>(animals.values());
+    public List<WorldElement> getElements(){
+        List<WorldElement> result = new LinkedList<>(animals.values());
+        result.addAll(grasses.values());
+        return result;
     }
 
     @Override
-    public abstract boolean place(WorldElement object);
+    public boolean place(WorldElement animal) {
+        if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
+            animals.put(animal.getPosition(), (Animal) animal);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void move(WorldElement animal, MoveDirection moveDirection) {
-        move(animal, moveDirection, this);
-    }
 
-    @Override
-    public void move(WorldElement object, MoveDirection moveDirection, MoveValidator moveValidator) {
-        Animal animal = (Animal) object;
         Vector2d oldPosition = animal.getPosition();
-        animal.move(moveDirection, moveValidator);
+        animal.move(moveDirection, this);
         Vector2d newPosition = animal.getPosition();
 
         if (!oldPosition.equals(newPosition)) {
             animals.remove(oldPosition);
-            animals.put(newPosition, (Animal) animal);
+            animals.put(newPosition, (Animal)animal);
         }
     }
 
@@ -46,7 +49,14 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public abstract WorldElement objectAt(Vector2d position);
+    public WorldElement objectAt(Vector2d position) {
+        if (animals.containsKey(position)){
+            return animals.get(position);
+        }
+        if (grasses.containsKey(position))
+            return grasses.get(position);
+        return null;
+    }
 
     @Override
     public abstract Vector2d getLowerLeft();

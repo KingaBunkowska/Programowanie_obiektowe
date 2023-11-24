@@ -7,8 +7,6 @@ public interface WorldMap extends MoveValidator{
 
     void move(WorldElement object, MoveDirection direction);
 
-    void move(WorldElement object, MoveDirection moveDirection, MoveValidator moveValidator);
-
     boolean isOccupied(Vector2d position);
 
     WorldElement objectAt(Vector2d position);

@@ -16,6 +16,9 @@ public class Grass implements WorldElement{
         return position;
     }
 
+    @Override
+    public void move(MoveDirection moveDirection, MoveValidator moveValidator) {}
+
     public String toString(){
         return "*";
     }
