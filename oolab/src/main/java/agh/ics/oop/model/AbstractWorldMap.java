@@ -1,9 +1,6 @@
 package agh.ics.oop.model;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap{
 
@@ -15,8 +12,8 @@ public abstract class AbstractWorldMap implements WorldMap{
     };
 
     @Override
-    public List<WorldElement> getElements(){
-        List<WorldElement> result = new LinkedList<>(animals.values());
+    public Collection<WorldElement> getElements(){
+        Collection<WorldElement> result = new LinkedList<>(animals.values());
         result.addAll(grasses.values());
         return result;
     }
@@ -31,7 +28,7 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public void move(WorldElement animal, MoveDirection moveDirection) {
+    public void move(Animal animal, MoveDirection moveDirection) {
 
         Vector2d oldPosition = animal.getPosition();
         animal.move(moveDirection, this);
@@ -39,7 +36,7 @@ public abstract class AbstractWorldMap implements WorldMap{
 
         if (!oldPosition.equals(newPosition)) {
             animals.remove(oldPosition);
-            animals.put(newPosition, (Animal) animal);
+            animals.put(newPosition, animal);
         }
     }
 

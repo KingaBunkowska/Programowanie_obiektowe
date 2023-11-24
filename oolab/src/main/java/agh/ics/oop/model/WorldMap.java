@@ -1,11 +1,13 @@
 package agh.ics.oop.model;
+import java.text.CollationKey;
+import java.util.Collection;
 import java.util.List;
 
 public interface WorldMap extends MoveValidator{
 
     boolean place(Animal object);
 
-    void move(WorldElement object, MoveDirection direction);
+    void move(Animal object, MoveDirection direction);
 
     boolean isOccupied(Vector2d position);
 
@@ -15,5 +17,5 @@ public interface WorldMap extends MoveValidator{
 
     public Vector2d getUpperRight();
 
-    public List<WorldElement> getElements();
+    public Collection<WorldElement> getElements();
 }

@@ -1,5 +1,6 @@
-package agh.ics.oop;
+package agh.ics.oop.model;
 
+import agh.ics.oop.Simulation;
 import agh.ics.oop.model.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -97,36 +98,44 @@ public class GrassFieldTest {
     public void testMove() {
         GrassField map = new GrassField(0);
 
-        Simulation simulation = new Simulation(
-                List.of(new Vector2d(2, 2), new Vector2d(4, 3)),
-                List.of(MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD),
-                map);
+        Animal animal1 = new Animal();
+        Animal animal2 = new Animal(new Vector2d(4, 2));
+        map.place(animal1);
+        map.place(animal2);
 
-        simulation.run();
+        map.move(animal1, MoveDirection.FORWARD);
+        map.move(animal2, MoveDirection.RIGHT);
+        map.move(animal1, MoveDirection.FORWARD);
+        map.move(animal2, MoveDirection.FORWARD);
+
 
         // valid moves
         assertFalse(map.isOccupied(new Vector2d(2, 2)));
         assertTrue(map.isOccupied(new Vector2d(2, 4)));
-        Assert.assertEquals(simulation.getAnimals().get(0).getOrientation(), MapDirection.NORTH);
-        assertEquals(simulation.getAnimals().get(0), map.objectAt(new Vector2d(2, 4)));
+        Assert.assertEquals(animal1.getOrientation(), MapDirection.NORTH);
+        assertEquals(animal1, map.objectAt(new Vector2d(2, 4)));
 
 
         GrassField map2 = new GrassField(0);
 
-        Simulation simulation2 = new Simulation(
-                List.of(new Vector2d(2, 2), new Vector2d(3, 2)),
-                List.of(MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD),
-                map2);
+        Animal animal3 = new Animal();
+        Animal animal4 = new Animal(new Vector2d(3, 2));
+        map2.place(animal3);
+        map2.place(animal4);
 
-        simulation2.run();
+        map2.move(animal3, MoveDirection.RIGHT);
+        map2.move(animal4, MoveDirection.RIGHT);
+        map2.move(animal3, MoveDirection.FORWARD);
+        map2.move(animal4, MoveDirection.FORWARD);
+        map2.move(animal3, MoveDirection.BACKWARD);
 
         // moving onto other animal
         assertFalse(map2.isOccupied(new Vector2d(2, 2)));
         assertFalse(map2.isOccupied(new Vector2d(3, 2)));
-        assertEquals(simulation2.getAnimals().get(0).getOrientation(), MapDirection.EAST);
-        assertEquals(simulation2.getAnimals().get(1).getOrientation(), MapDirection.EAST);
-        assertEquals(simulation2.getAnimals().get(0), map2.objectAt(new Vector2d(1, 2)));
-        assertEquals(simulation2.getAnimals().get(1), map2.objectAt(new Vector2d(4, 2)));
+        assertEquals(animal3.getOrientation(), MapDirection.EAST);
+        assertEquals(animal4.getOrientation(), MapDirection.EAST);
+        assertEquals(animal3, map2.objectAt(new Vector2d(1, 2)));
+        assertEquals(animal4, map2.objectAt(new Vector2d(4, 2)));
 
     }
 

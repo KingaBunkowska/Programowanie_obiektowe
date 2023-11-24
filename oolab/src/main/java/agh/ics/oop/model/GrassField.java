@@ -19,7 +19,7 @@ public class GrassField extends AbstractWorldMap {
         }
     }
 
-    public boolean placeGrass(Grass object) {
+    boolean placeGrass(Grass object) {
         if (!isOccupiedByGrass(object.getPosition())) {
             grasses.put(object.getPosition(),object);
             return true;
