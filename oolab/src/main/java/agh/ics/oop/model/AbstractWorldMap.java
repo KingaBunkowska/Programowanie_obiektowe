@@ -1,11 +1,37 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.model.util.MapVisualizer;
+
 import java.util.*;
 
-public abstract class AbstractWorldMap implements WorldMap{
+public abstract class AbstractWorldMap implements WorldMap {
+
+    private final List<MapChangeListener> observers = new ArrayList<>();
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
+
+    protected MapVisualizer mapVisualizer = new MapVisualizer(this);
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    protected void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return mapVisualizer.draw(getCurrentBounds());
+    }
+
     @Override
     public boolean canMoveTo(Vector2d p){
         return !animals.containsKey(p);
@@ -19,12 +45,14 @@ public abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
             animals.put(animal.getPosition(), animal);
-            return true;
+            mapChanged(animal + " has been added");
         }
-        return false;
+        else {
+            throw new PositionAlreadyOccupiedException(animal.getPosition());
+        }
     }
 
     @Override
@@ -37,6 +65,7 @@ public abstract class AbstractWorldMap implements WorldMap{
         if (!oldPosition.equals(newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
+            mapChanged(animal + " moved to " + newPosition);
         }
     }
 
@@ -55,9 +84,12 @@ public abstract class AbstractWorldMap implements WorldMap{
         return null;
     }
 
-    @Override
     public abstract Vector2d getLowerLeft();
 
-    @Override
     public abstract Vector2d getUpperRight();
+
+    @Override
+    public Boundary getCurrentBounds() {
+        return new Boundary(getLowerLeft(), getUpperRight());
+    }
 }

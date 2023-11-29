@@ -46,12 +46,6 @@ public class GrassField extends AbstractWorldMap {
     }
 
 
-    @Override
-    public String toString() {
-        MapVisualizer mapVisualizer = new MapVisualizer(this);
-        return mapVisualizer.draw(this.getLowerLeft(), this.getUpperRight());
-    }
-
     private boolean isOccupiedByGrass(Vector2d position){
         return grasses.containsKey(position);
     }

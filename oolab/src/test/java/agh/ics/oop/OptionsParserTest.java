@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class OptionsParserTest {
 
@@ -16,6 +16,16 @@ public class OptionsParserTest {
         //given
         OptionsParser optionsParser = new OptionsParser();
         String[] args = new String[]{"f", "b", "r", "l", "wrong input", "f"};
+        assertThrows(IllegalArgumentException.class, () -> optionsParser.convert(args));
+
+
+        String[] args2 = new String[]{"w1", "w2", "w3"};
+        List<MoveDirection> expectedResult2 = new LinkedList<>();
+
+        assertThrows(IllegalArgumentException.class, () -> optionsParser.convert(args));
+
+        //given
+        String[] args3 = new String[]{"f", "b", "r", "l", "f"};
         List<MoveDirection> expectedResult = new LinkedList<>();
         expectedResult.add(MoveDirection.FORWARD);
         expectedResult.add(MoveDirection.BACKWARD);
@@ -25,20 +35,13 @@ public class OptionsParserTest {
 
 
 
-        //when
-        List<MoveDirection> funcResult = optionsParser.convert(args);
+        try {
+            List<MoveDirection> funcResult = optionsParser.convert(args3);
+            assertEquals(expectedResult, funcResult);
+        }
+        catch(IllegalArgumentException e){
+            fail("Unexpected exception");
+        }
 
-        //then
-        assertEquals(expectedResult, funcResult);
-
-        //given
-        String[] args2 = new String[]{"w1", "w2", "w3"};
-        List<MoveDirection> expectedResult2 = new LinkedList<>();
-
-        //when
-        List<MoveDirection> funcResult2 = optionsParser.convert(args2);
-
-        //then
-        assertEquals(expectedResult2, funcResult2);
     }
 }
