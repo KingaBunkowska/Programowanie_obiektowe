@@ -1,20 +1,21 @@
 package agh.ics.oop.model;
+import java.text.CollationKey;
+import java.util.Collection;
+import java.util.List;
 
-public interface WorldMap<T, P> extends MoveValidator<P> {
+public interface WorldMap extends MoveValidator{
 
-    boolean place(T object);
+    boolean place(Animal object);
 
-    void move(T object, MoveDirection direction);
+    void move(Animal object, MoveDirection direction);
 
-    void move(T object, MoveDirection moveDirection, MoveValidator<P> moveValidator);
+    boolean isOccupied(Vector2d position);
 
-    boolean isOccupied(P position);
+    WorldElement objectAt(Vector2d position);
 
-    T objectAt(P position);
+    public Vector2d getLowerLeft();
 
-    public P getLowerLeft();
+    public Vector2d getUpperRight();
 
-    public P getUpperRight();
-
-    P wrapPosition(P p);
+    public Collection<WorldElement> getElements();
 }
