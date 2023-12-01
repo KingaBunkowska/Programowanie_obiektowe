@@ -38,7 +38,7 @@ public class Simulation {
             currAnimalIdx++;
         }
     }
-    protected List<Animal> getAnimals() {
+    List<Animal> getAnimals() {
         return Collections.unmodifiableList(animals);
     }
 

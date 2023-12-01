@@ -13,7 +13,7 @@ public interface WorldMap extends MoveValidator{
 
     WorldElement objectAt(Vector2d position);
 
-    public Collection<WorldElement> getElements();
+    Collection<WorldElement> getElements();
 
-    public Boundary getCurrentBounds();
+    Boundary getCurrentBounds();
 }

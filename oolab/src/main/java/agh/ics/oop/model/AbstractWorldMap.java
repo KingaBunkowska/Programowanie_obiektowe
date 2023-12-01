@@ -11,7 +11,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
 
-    protected MapVisualizer mapVisualizer = new MapVisualizer(this);
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
@@ -33,8 +33,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d p){
-        return !animals.containsKey(p);
+    public boolean canMoveTo(Vector2d position){
+        return !animals.containsKey(position);
     };
 
     @Override

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class OptionsParser {
 
-    public List<MoveDirection> convert(String[] args) throws IllegalArgumentException{
+    public List<MoveDirection> convert(String[] args){
 
         List<MoveDirection> moveDirections = new LinkedList<>();
 
