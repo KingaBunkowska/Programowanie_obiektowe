@@ -1,11 +1,12 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 import java.util.*;
+
+import static java.util.Collections.addAll;
 
 public class GrassField extends AbstractWorldMap {
     Random random = new Random();
+    protected final Map<Vector2d, Grass> grasses = new HashMap<>();
 
     public GrassField(int noOfGrasses){
         int range = (int) Math.pow(noOfGrasses*10, 0.5);
@@ -28,25 +29,28 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public Vector2d getLowerLeft() {
+    public Boundary getCurrentBounds(){
         Set<Vector2d> positionSet = new HashSet<>(grasses.keySet());
         positionSet.addAll(animals.keySet());
-        return positionSet.stream()
-                .reduce(Vector2d::lowerLeft)
-                .orElse(new Vector2d(0, 0));
+        return new Boundary(
+                positionSet.stream().reduce(Vector2d::lowerLeft).orElse(new Vector2d(0, 0)),
+                positionSet.stream().reduce(Vector2d::upperRight).orElse(new Vector2d(0, 0)));
     }
-
-    @Override
-    public Vector2d getUpperRight() {
-        Set<Vector2d> positionSet = new HashSet<>(grasses.keySet());
-        positionSet.addAll(animals.keySet());
-        return positionSet.stream()
-                .reduce(Vector2d::upperRight)
-                .orElse(new Vector2d(0, 0));
-    }
-
 
     private boolean isOccupiedByGrass(Vector2d position){
         return grasses.containsKey(position);
+    }
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        if (grasses.containsKey(position))
+            return grasses.get(position);
+        return super.objectAt(position);
+    }
+
+    @Override
+    public Collection<WorldElement> getElements() {
+        Collection<WorldElement> result = super.getElements();
+        result.addAll(grasses.values());
+        return result;
     }
 }
