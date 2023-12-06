@@ -1,30 +1,56 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.model.util.MapVisualizer;
+
 import java.util.*;
 
-public abstract class AbstractWorldMap implements WorldMap{
+public abstract class AbstractWorldMap implements WorldMap {
+
+    private final List<MapChangeListener> observers = new ArrayList<>();
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
-    protected final Map<Vector2d, Grass> grasses = new HashMap<>();
+
+
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    private void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
+    }
+
     @Override
-    public boolean canMoveTo(Vector2d p){
-        return !animals.containsKey(p);
+    public String toString() {
+        return mapVisualizer.draw(getCurrentBounds());
+    }
+
+    @Override
+    public boolean canMoveTo(Vector2d position){
+        return !animals.containsKey(position);
     };
 
     @Override
     public Collection<WorldElement> getElements(){
-        Collection<WorldElement> result = new LinkedList<>(animals.values());
-        result.addAll(grasses.values());
-        return result;
+        return new LinkedList<>(animals.values());
     }
 
     @Override
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
             animals.put(animal.getPosition(), animal);
-            return true;
+            mapChanged(animal + " has been added");
         }
-        return false;
+        else {
+            throw new PositionAlreadyOccupiedException(animal.getPosition());
+        }
     }
 
     @Override
@@ -37,6 +63,7 @@ public abstract class AbstractWorldMap implements WorldMap{
         if (!oldPosition.equals(newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
+            mapChanged(animal + " moved to " + newPosition);
         }
     }
 
@@ -50,14 +77,10 @@ public abstract class AbstractWorldMap implements WorldMap{
         if (animals.containsKey(position)){
             return animals.get(position);
         }
-        if (grasses.containsKey(position))
-            return grasses.get(position);
         return null;
     }
 
-    @Override
-    public abstract Vector2d getLowerLeft();
 
     @Override
-    public abstract Vector2d getUpperRight();
+    abstract public Boundary getCurrentBounds();
 }

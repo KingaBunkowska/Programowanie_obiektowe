@@ -17,13 +17,8 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public Vector2d getLowerLeft() {
-        return boardStart;
-    }
-
-    @Override
-    public Vector2d getUpperRight() {
-        return boardEnd;
+    public Boundary getCurrentBounds(){
+        return new Boundary(boardStart, boardEnd);
     }
 
 

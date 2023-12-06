@@ -27,7 +27,9 @@ public class SimulationTest {
                 MoveDirection.BACKWARD
         );
 
-        WorldMap map1 = new RectangularMap(5, 5);
+        AbstractWorldMap map1 = new RectangularMap(5, 5);
+        ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
+        map1.addObserver(consoleMapDisplay);
 
         Simulation simulation1 = new Simulation(positions1, moves1, map1);
 

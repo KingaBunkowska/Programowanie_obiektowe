@@ -23,15 +23,18 @@ public class RectangularMapTest {
     public void testPlaceAnimal() {
         RectangularMap map = new RectangularMap(5, 5);
 
-        // Test placing an animal in a valid position
         Animal animal1 = new Animal(new Vector2d(2, 2));
-        assertTrue(map.place(animal1));
+        try {
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail("Not expected PositionAlreadyOccupiedException");
+        }
         assertTrue(map.isOccupied(new Vector2d(2, 2)));
         assertEquals(animal1, map.objectAt(new Vector2d(2, 2)));
 
         // Test placing an animal in an invalid position
         Animal animal2 = new Animal(new Vector2d(6, 6));
-        assertFalse(map.place(animal2));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal2));
         assertFalse(map.isOccupied(new Vector2d(6, 6)));
         assertNull(map.objectAt(new Vector2d(6, 6)));
     }
@@ -84,7 +87,11 @@ public class RectangularMapTest {
 
         // valid
         Animal animal1 = new Animal(new Vector2d(2, 2));
-        map.place(animal1);
+        try {
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail("Not expected PositionAlreadyOccupiedException");
+        }
         assertEquals(animal1, map.objectAt(new Vector2d(2, 2)));
 
         // nothing at
@@ -95,7 +102,11 @@ public class RectangularMapTest {
 
         // canMove other animal
         Animal animal2 = new Animal(new Vector2d(3, 3));
-        map.place(animal2);
+        try {
+            map.place(animal2);
+        } catch (PositionAlreadyOccupiedException e) {
+            fail("Not expected PositionAlreadyOccupiedException");
+        }
         assertFalse(map.canMoveTo(new Vector2d(3, 3)));
 
         // canMove outside boarder

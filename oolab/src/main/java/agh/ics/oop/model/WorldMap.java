@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface WorldMap extends MoveValidator{
 
-    boolean place(Animal object);
+    void place(Animal object) throws PositionAlreadyOccupiedException;
 
     void move(Animal object, MoveDirection direction);
 
@@ -13,9 +13,7 @@ public interface WorldMap extends MoveValidator{
 
     WorldElement objectAt(Vector2d position);
 
-    public Vector2d getLowerLeft();
+    Collection<WorldElement> getElements();
 
-    public Vector2d getUpperRight();
-
-    public Collection<WorldElement> getElements();
+    Boundary getCurrentBounds();
 }
