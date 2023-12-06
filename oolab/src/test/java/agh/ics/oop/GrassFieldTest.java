@@ -18,6 +18,8 @@ public class GrassFieldTest {
         int range = (int) Math.pow(n*10, 0.5);
         Vector2d endOfGrassGeneration = new Vector2d(range, range);
 
+        assertEquals(n, grassField.getElements().size());
+
         for (WorldElement grass : grassField.getElements()){
             assertTrue(grass.getPosition().precedes(endOfGrassGeneration));
             assertFalse(grassField.place(grass));

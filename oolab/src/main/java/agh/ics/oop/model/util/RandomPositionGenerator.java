@@ -8,9 +8,12 @@ public class RandomPositionGenerator implements Iterator<Vector2d>, Iterable<Vec
     private final List<Vector2d> positions;
     private int currentIndex;
 
-    public RandomPositionGenerator(int maxWidth, int maxHeight) {
-        this.positions = generateAllPositions(maxWidth, maxHeight);
-        Collections.shuffle(this.positions);
+    public RandomPositionGenerator(int maxWidth, int maxHeight, int noOfGrasses) {
+        List<Vector2d> listOfAll = generateAllPositions(maxWidth, maxHeight);
+        Collections.shuffle(listOfAll);
+        List<Vector2d> newList = listOfAll.subList(0, Math.min(noOfGrasses, listOfAll.size()));
+        this.positions = newList;
+
         this.currentIndex = 0;
     }
 
