@@ -6,6 +6,7 @@ public class RectangularMap extends AbstractWorldMap {
     private final Vector2d boardEnd;
 
     public RectangularMap(int width, int height) {
+        super();
         this.boardEnd = new Vector2d(width - 1, height - 1);
     }
 
@@ -28,7 +29,7 @@ public class RectangularMap extends AbstractWorldMap {
 
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
+    public synchronized boolean canMoveTo(Vector2d position) {
         if (position.follows(boardStart) && position.precedes(boardEnd)){
             return super.canMoveTo(position);
         }

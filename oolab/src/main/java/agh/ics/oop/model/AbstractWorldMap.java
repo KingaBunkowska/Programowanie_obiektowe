@@ -7,6 +7,17 @@ import java.util.*;
 public abstract class AbstractWorldMap implements WorldMap {
 
     private final List<MapChangeListener> observers = new ArrayList<>();
+    private static int nextId = 0;
+    private final int id;
+
+    public AbstractWorldMap(){
+        this.id = nextId;
+        nextId += 1;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -33,7 +44,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position){
+    public synchronized boolean canMoveTo(Vector2d position){
         return !animals.containsKey(position);
     };
 
@@ -45,8 +56,9 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public void place(Animal animal) throws PositionAlreadyOccupiedException {
-        if (canMoveTo(animal.getPosition()) && !isOccupied(animal.getPosition())) {
+    public synchronized void place(Animal animal) throws PositionAlreadyOccupiedException {
+
+        if (canMoveTo(animal.getPosition())) {
             animals.put(animal.getPosition(), animal);
             mapChanged(animal + " has been added");
         }
@@ -56,7 +68,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public void move(Animal animal, MoveDirection moveDirection) {
+    public synchronized void move(Animal animal, MoveDirection moveDirection) {
 
         Vector2d oldPosition = animal.getPosition();
         animal.move(moveDirection, this);

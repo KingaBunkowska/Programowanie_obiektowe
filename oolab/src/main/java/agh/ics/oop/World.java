@@ -4,58 +4,71 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import javax.swing.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class World {
 
     public static void main(String[] args){
         System.out.println("System wystartował");
+
         OptionsParser optionsParser = new OptionsParser();
-        List<MoveDirection> moveDirections= optionsParser.convert(args);
-        run(moveDirections);
-        System.out.println("System zakończył działanie\nJednak nie");
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-        System.out.println("I teraz zakończył działanie na serio\nZnowu nie");
+        List<MoveDirection> moveDirections = optionsParser.convert(args);
 
-        System.out.println(MapDirection.NORTH.toUnitVector().toString());
-
-        Animal animal = new Animal();
-        Animal animal2 = new Animal(new Vector2d(9,-4));
-        System.out.println(animal.toString());
-        System.out.println(animal2.toString());
-
-        List<MoveDirection> directions = optionsParser.convert(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3, 4));
-        AbstractWorldMap map = new RectangularMap(5, 5);
-        ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
-        map.addObserver(consoleMapDisplay);
-
-        Simulation simulation = new Simulation(positions, directions, map);
-        simulation.run();
-
+        RectangularMap rectangularMap = new RectangularMap(10,10);
         GrassField grassField = new GrassField(10);
-        grassField.addObserver(consoleMapDisplay);
-        grassField.move(animal, MoveDirection.FORWARD);
 
-        try{
-            grassField.place(animal);
-        }
-        catch(PositionAlreadyOccupiedException e){
-            System.out.println("Position occupied, so animal was not placed");
+        ConsoleMapDisplay observer = new ConsoleMapDisplay();
+        rectangularMap.addObserver(observer);
+        grassField.addObserver(observer);
+
+        List<Vector2d> animalPositions = List.of(
+                new Vector2d(1, 2),
+                new Vector2d(4, 5),
+                new Vector2d(2, 6),
+                new Vector2d(1, 1)
+        );
+
+        List<Simulation> simulations= List.of(
+                new Simulation(animalPositions, moveDirections, rectangularMap),
+                new Simulation(animalPositions, moveDirections, grassField)
+        );
+
+
+        SimulationEngine simulationEngine = new SimulationEngine(simulations);
+
+        simulationEngine.runAsync();
+
+        System.out.println("Those were two simulations ^^^\n-----------------------------------\n\n");
+
+        int n = 1000;
+
+        List<Simulation> resultList = new LinkedList<Simulation>();
+
+        for (int i = 0; i < n; i++) {
+            GrassField grassFieldTmp = new GrassField(10);
+            grassFieldTmp.addObserver(observer);
+            Simulation simulation = new Simulation(animalPositions, moveDirections, grassFieldTmp);
+
+            resultList.add(simulation);
         }
 
-        try{
-            grassField.place(animal2);
+        SimulationEngine simulationEngine2 = new SimulationEngine(resultList);
+        simulationEngine2.runAsync();
+
+        System.out.println("Those were n simulations ^^^\n-----------------------------------\n\n");
+
+        try {
+            simulationEngine2.runAsyncInThreadPool();
         }
-        catch(PositionAlreadyOccupiedException e){
-            System.out.println("Position occupied, so animal2 was not placed");
+        catch (InterruptedException e){
+            System.out.println("Something was interrupted, why it was computing more than 10s?");
+            e.printStackTrace();
         }
 
-        System.out.println("I teraz tak :)");
+        System.out.println("Those were n simulations but with executor ^^^\n-----------------------------------\n\n");
+
+        System.out.println("I zakończył działanie");
 
 
 

@@ -7,14 +7,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable{
 
     private final List<Animal> animals = new LinkedList<>();
     private final List<MoveDirection> moves;
 
-    private final WorldMap map;
+    private final AbstractWorldMap map;
 
-    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map){
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, AbstractWorldMap map){
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
             Animal newAnimal = new Animal(animalPosition);
@@ -24,6 +24,7 @@ public class Simulation {
                 this.animals.add(newAnimal);
             }
             catch(PositionAlreadyOccupiedException e){
+                System.out.println("ID: " + map.getId());
                 System.out.println("Animal was not added at position " + animalPosition);
             }
         }
