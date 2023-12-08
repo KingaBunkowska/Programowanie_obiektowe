@@ -8,7 +8,6 @@ public class GrassField extends AbstractWorldMap {
     Random random = new Random();
 
     public GrassField(int noOfGrasses){
-        super();
         int range = (int) Math.pow(noOfGrasses*10, 0.5);
         int i = 0;
         while (i<noOfGrasses){

@@ -11,7 +11,6 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
 
-
     @Override
     public WorldElement objectAt(Vector2d position) {
         return animals.get(position);
@@ -29,7 +28,7 @@ public class RectangularMap extends AbstractWorldMap {
 
 
     @Override
-    public synchronized boolean canMoveTo(Vector2d position) {
+    public boolean canMoveTo(Vector2d position) {
         if (position.follows(boardStart) && position.precedes(boardEnd)){
             return super.canMoveTo(position);
         }

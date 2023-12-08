@@ -26,7 +26,7 @@ public class Animal implements WorldElement {
         return this.position.equals(position);
     }
 
-    public synchronized void move(MoveDirection moveDirection, MoveValidator moveValidator){
+    public void move(MoveDirection moveDirection, MoveValidator moveValidator){
 
         switch (moveDirection){
             case MoveDirection.LEFT -> this.orientation = this.orientation.previous();

@@ -15,12 +15,7 @@ public class World {
         OptionsParser optionsParser = new OptionsParser();
         List<MoveDirection> moveDirections = optionsParser.convert(args);
 
-        RectangularMap rectangularMap = new RectangularMap(10,10);
-        GrassField grassField = new GrassField(10);
-
         ConsoleMapDisplay observer = new ConsoleMapDisplay();
-        rectangularMap.addObserver(observer);
-        grassField.addObserver(observer);
 
         List<Vector2d> animalPositions = List.of(
                 new Vector2d(1, 2),
@@ -28,20 +23,7 @@ public class World {
                 new Vector2d(2, 6),
                 new Vector2d(1, 1)
         );
-
-        List<Simulation> simulations= List.of(
-                new Simulation(animalPositions, moveDirections, rectangularMap),
-                new Simulation(animalPositions, moveDirections, grassField)
-        );
-
-
-        SimulationEngine simulationEngine = new SimulationEngine(simulations);
-
-        simulationEngine.runAsync();
-
-        System.out.println("Those were two simulations ^^^\n-----------------------------------\n\n");
-
-        int n = 1000;
+        int n = 100;
 
         List<Simulation> resultList = new LinkedList<Simulation>();
 
@@ -53,25 +35,30 @@ public class World {
             resultList.add(simulation);
         }
 
-        SimulationEngine simulationEngine2 = new SimulationEngine(resultList);
-        simulationEngine2.runAsync();
-
-        System.out.println("Those were n simulations ^^^\n-----------------------------------\n\n");
-
-        try {
-            simulationEngine2.runAsyncInThreadPool();
+        SimulationEngine simulationEngine = new SimulationEngine(resultList);
+        simulationEngine.runAsync();
+        try{
+            simulationEngine.awaitSimulationsEnd();
+            System.out.println("Tu koniec runAsync");
         }
         catch (InterruptedException e){
-            System.out.println("Something was interrupted, why it was computing more than 10s?");
+            System.out.println("Wątek przerwany");
             e.printStackTrace();
         }
 
-        System.out.println("Those were n simulations but with executor ^^^\n-----------------------------------\n\n");
+
+        SimulationEngine simulationEngine2 = new SimulationEngine(resultList);
+        try {
+            simulationEngine2.runAsyncInThreadPool();
+            simulationEngine2.awaitSimulationsEnd();
+            System.out.println("Tu koniec runAsyncThreadPool");
+        }
+        catch (InterruptedException e){
+            System.out.println("Wątek przerwany");
+            e.printStackTrace();
+        }
 
         System.out.println("I zakończył działanie");
-
-
-
     }
 
 

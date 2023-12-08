@@ -12,9 +12,9 @@ public class Simulation implements Runnable{
     private final List<Animal> animals = new LinkedList<>();
     private final List<MoveDirection> moves;
 
-    private final AbstractWorldMap map;
+    private final WorldMap map;
 
-    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, AbstractWorldMap map){
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map){
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
             Animal newAnimal = new Animal(animalPosition);

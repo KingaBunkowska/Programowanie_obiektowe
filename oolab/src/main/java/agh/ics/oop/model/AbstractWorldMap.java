@@ -15,6 +15,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         nextId += 1;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -44,7 +45,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public synchronized boolean canMoveTo(Vector2d position){
+    public boolean canMoveTo(Vector2d position){
         return !animals.containsKey(position);
     };
 
