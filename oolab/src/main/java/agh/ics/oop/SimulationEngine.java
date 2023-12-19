@@ -39,7 +39,7 @@ public class SimulationEngine {
         executorService.awaitTermination(10, TimeUnit.SECONDS);
     }
 
-    public void runAsyncInThreadPool() throws InterruptedException {
+    public void runAsyncInThreadPool() {
         for (Simulation simulation : simulations){
             executorService.submit(simulation);
         }

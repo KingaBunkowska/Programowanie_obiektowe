@@ -29,10 +29,10 @@ public class Animal implements WorldElement {
     public void move(MoveDirection moveDirection, MoveValidator moveValidator){
 
         switch (moveDirection){
-            case MoveDirection.LEFT -> this.orientation = this.orientation.previous();
-            case MoveDirection.RIGHT -> this.orientation = this.orientation.next();
-            case MoveDirection.FORWARD -> this.position = moveValidator.canMoveTo(this.getPosition().add(this.orientation.toUnitVector()))?this.getPosition().add(this.orientation.toUnitVector()):this.getPosition();
-            case MoveDirection.BACKWARD -> this.position = moveValidator.canMoveTo(this.getPosition().add(this.orientation.toUnitVector().opposite()))?this.getPosition().add(this.orientation.toUnitVector().opposite()):this.getPosition();
+            case LEFT -> this.orientation = this.orientation.previous();
+            case RIGHT -> this.orientation = this.orientation.next();
+            case FORWARD -> this.position = moveValidator.canMoveTo(this.getPosition().add(this.orientation.toUnitVector()))?this.getPosition().add(this.orientation.toUnitVector()):this.getPosition();
+            case BACKWARD -> this.position = moveValidator.canMoveTo(this.getPosition().add(this.orientation.toUnitVector().opposite()))?this.getPosition().add(this.orientation.toUnitVector().opposite()):this.getPosition();
         }
     }
 
