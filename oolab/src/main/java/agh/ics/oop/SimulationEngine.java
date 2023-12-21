@@ -16,9 +16,9 @@ public class SimulationEngine {
         this.executorService = Executors.newFixedThreadPool(4);
     }
 
-    public void runSync(){
+    public void runSync() throws InterruptedException{
         for (Simulation simulation : this.simulations){
-            simulation.run();
+                simulation.run();
         }
     }
 

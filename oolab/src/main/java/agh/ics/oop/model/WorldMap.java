@@ -1,4 +1,6 @@
 package agh.ics.oop.model;
+import agh.ics.oop.presenter.SimulationPresenter;
+
 import java.util.Collection;
 
 public interface WorldMap extends MoveValidator{
@@ -16,4 +18,6 @@ public interface WorldMap extends MoveValidator{
     Collection<WorldElement> getElements();
 
     Boundary getCurrentBounds();
+
+    void addObserver(MapChangeListener mapChangeListener);
 }
