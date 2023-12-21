@@ -4,14 +4,16 @@ BorderPane{
     -fx-padding: 10;
 }
 
+#gridPane{
+    -fx-alignment: center;
+}
+
 VBox {
     -fx-alignment: center;
     -fx-spacing: 10;
 }
 
-#gridPane{
-    -fx-alignment: center;
-}
+
 
 #gridPane Label {
     -fx-font-weight: bold;

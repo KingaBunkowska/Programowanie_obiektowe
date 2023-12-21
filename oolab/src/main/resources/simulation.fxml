@@ -12,19 +12,12 @@
             minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.presenter.SimulationPresenter"
             stylesheets="simulation.css">
-    <top>
-        <TextField fx:id="textField"/>
-    </top>
+
     <center>
         <VBox>
             <Label fx:id="moveLabel" textAlignment="CENTER"/>
             <GridPane fx:id="gridPane" gridLinesVisible="true"/>
         </VBox>
     </center>
-    <bottom>
-        <VBox>
-            <Button fx:id="start" text="START" onAction="#onSimulationStartClicked" alignment="CENTER"/>
-        </VBox>
-    </bottom>
 </BorderPane>
 

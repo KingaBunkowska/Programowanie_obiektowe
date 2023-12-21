@@ -1,0 +1,38 @@
+BorderPane {
+    -fx-background-color: rgb(59, 64, 66);
+}
+
+#textField {
+    -fx-padding: 20;
+    -fx-pref-height: 40;
+    -fx-font-size: 36;
+    -fx-font-weight: bold;
+    -fx-background-color: rgb(109, 117, 121);
+}
+
+/* Center (VBox, Label, GridPane) styling */
+VBox {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-padding: 20;
+}
+
+#moveLabel {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+#gridPane {
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+
+#start {
+    -fx-pref-width: 512;
+    -fx-pref-height: 128;
+    -fx-font-size: 48;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #4caf50; /* Green color for the button */
+}

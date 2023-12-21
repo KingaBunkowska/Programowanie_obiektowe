@@ -2,25 +2,21 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.SimulationApp;
 import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
 public class SimulationPresenter implements MapChangeListener {
 
@@ -28,14 +24,12 @@ public class SimulationPresenter implements MapChangeListener {
     static final int CELL_HEIGHT = 30;
     private WorldMap worldMap;
     private SimulationEngine simulationEngine;
-    Stage stage = new Stage();
+
+    private String[] args;
+    SimulationApp simulationApp;
 
     @FXML
-    private Button start;
-    @FXML
     private Label moveLabel;
-    @FXML
-    private TextField textField;
     @FXML
     private GridPane gridPane;
 
@@ -98,32 +92,5 @@ public class SimulationPresenter implements MapChangeListener {
             drawMap();
             moveLabel.setText(message);
         });
-    }
-
-    @FXML
-    private void onSimulationStartClicked() {
-
-        List<MoveDirection> moves = OptionsParser.convert(textField.getText().split(" "));
-        List<Vector2d> positions = List.of(new Vector2d(0,0), new Vector2d(2,2));
-
-        WorldMap map = new GrassField(10);
-        map.addObserver(this);
-        setWorldMap(map);
-
-        List<Simulation> simulations = List.of(new Simulation(positions, moves, map));
-        simulationEngine =new SimulationEngine(simulations);
-        simulationEngine.runAsyncInThreadPool();
-    }
-
-    private void configureStage(Stage primaryStage, BorderPane viewRoot) {
-        var scene = new Scene(viewRoot);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation app");
-        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
-        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
-    }
-
-    public void shutdown() throws InterruptedException {
-            simulationEngine.awaitSimulationsEnd();
     }
 }

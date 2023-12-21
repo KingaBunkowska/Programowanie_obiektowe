@@ -30,6 +30,13 @@ public class SimulationEngine {
         }
     }
 
+    public void addRunAsync(Simulation simulation){
+        Thread thread = new Thread(simulation);
+        threads.add(thread);
+        simulations.add(simulation);
+        thread.start();
+    }
+
     public void awaitSimulationsEnd() throws InterruptedException{
         for(Thread thread : threads){
             thread.join();

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.presenter.MainPresenter"
+            minHeight="550.0" minWidth="850.0"
+            stylesheets="main.css">
+
+    <top>
+        <VBox>
+            <TextField fx:id="textField"/>
+        </VBox>
+    </top>
+    <center>
+        <VBox>
+            <Button fx:id="start" text="START" onAction="#onSimulationStartClicked" alignment="CENTER"/>
+        </VBox>
+    </center>
+
+</BorderPane>
