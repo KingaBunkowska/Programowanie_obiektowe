@@ -4,61 +4,61 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import javax.swing.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class World {
 
     public static void main(String[] args){
         System.out.println("System wystartował");
+
         OptionsParser optionsParser = new OptionsParser();
-        List<MoveDirection> moveDirections= optionsParser.convert(args);
-        run(moveDirections);
-        System.out.println("System zakończył działanie\nJednak nie");
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
-        System.out.println("I teraz zakończył działanie na serio\nZnowu nie");
+        List<MoveDirection> moveDirections = optionsParser.convert(args);
 
-        System.out.println(MapDirection.NORTH.toUnitVector().toString());
+        ConsoleMapDisplay observer = new ConsoleMapDisplay();
 
-        Animal animal = new Animal();
-        Animal animal2 = new Animal(new Vector2d(9,-4));
-        System.out.println(animal.toString());
-        System.out.println(animal2.toString());
+        List<Vector2d> animalPositions = List.of(
+                new Vector2d(1, 2),
+                new Vector2d(4, 5),
+                new Vector2d(2, 6),
+                new Vector2d(1, 1)
+        );
+        int n = 100;
 
-        List<MoveDirection> directions = optionsParser.convert(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3, 4));
-        AbstractWorldMap map = new RectangularMap(5, 5);
-        ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
-        map.addObserver(consoleMapDisplay);
+        List<Simulation> resultList = new LinkedList<Simulation>();
 
-        Simulation simulation = new Simulation(positions, directions, map);
-        simulation.run();
+        for (int i = 0; i < n; i++) {
+            GrassField grassFieldTmp = new GrassField(10);
+            grassFieldTmp.addObserver(observer);
+            Simulation simulation = new Simulation(animalPositions, moveDirections, grassFieldTmp);
 
-        GrassField grassField = new GrassField(10);
-        grassField.addObserver(consoleMapDisplay);
-        grassField.move(animal, MoveDirection.FORWARD);
+            resultList.add(simulation);
+        }
 
+        SimulationEngine simulationEngine = new SimulationEngine(resultList);
+        simulationEngine.runAsync();
         try{
-            grassField.place(animal);
+            simulationEngine.awaitSimulationsEnd();
+            System.out.println("Tu koniec runAsync");
         }
-        catch(PositionAlreadyOccupiedException e){
-            System.out.println("Position occupied, so animal was not placed");
-        }
-
-        try{
-            grassField.place(animal2);
-        }
-        catch(PositionAlreadyOccupiedException e){
-            System.out.println("Position occupied, so animal2 was not placed");
+        catch (InterruptedException e){
+            System.out.println("Wątek przerwany");
+            e.printStackTrace();
         }
 
-        System.out.println("I teraz tak :)");
 
+        SimulationEngine simulationEngine2 = new SimulationEngine(resultList);
+        try {
+            simulationEngine2.runAsyncInThreadPool();
+            simulationEngine2.awaitSimulationsEnd();
+            System.out.println("Tu koniec runAsyncThreadPool");
+        }
+        catch (InterruptedException e){
+            System.out.println("Wątek przerwany");
+            e.printStackTrace();
+        }
 
-
+        System.out.println("I zakończył działanie");
     }
 
 

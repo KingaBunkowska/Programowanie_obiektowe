@@ -6,9 +6,9 @@ public class RectangularMap extends AbstractWorldMap {
     private final Vector2d boardEnd;
 
     public RectangularMap(int width, int height) {
+        super();
         this.boardEnd = new Vector2d(width - 1, height - 1);
     }
-
 
 
     @Override

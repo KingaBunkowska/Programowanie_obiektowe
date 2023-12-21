@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
-import java.text.CollationKey;
 import java.util.Collection;
-import java.util.List;
 
 public interface WorldMap extends MoveValidator{
 
@@ -12,6 +10,8 @@ public interface WorldMap extends MoveValidator{
     boolean isOccupied(Vector2d position);
 
     WorldElement objectAt(Vector2d position);
+
+    int getId();
 
     Collection<WorldElement> getElements();
 
