@@ -10,7 +10,6 @@ BorderPane {
     -fx-background-color: rgb(109, 117, 121);
 }
 
-/* Center (VBox, Label, GridPane) styling */
 VBox {
     -fx-spacing: 10;
     -fx-alignment: center;
@@ -34,5 +33,5 @@ VBox {
     -fx-font-size: 48;
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-background-color: #4caf50; /* Green color for the button */
+    -fx-background-color: #4caf50;
 }
