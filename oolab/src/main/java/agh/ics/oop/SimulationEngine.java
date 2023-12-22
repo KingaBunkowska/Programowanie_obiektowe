@@ -37,6 +37,7 @@ public class SimulationEngine {
         thread.start();
     }
 
+
     public void awaitSimulationsEnd() throws InterruptedException{
         for(Thread thread : threads){
             thread.join();
