@@ -28,7 +28,6 @@ public class SimulationPresenter implements MapChangeListener {
     static final int CELL_HEIGHT = 30;
     private WorldMap worldMap;
     private SimulationEngine simulationEngine;
-    Stage stage = new Stage();
 
     @FXML
     private Button start;
@@ -38,10 +37,6 @@ public class SimulationPresenter implements MapChangeListener {
     private TextField textField;
     @FXML
     private GridPane gridPane;
-
-    public void setWorldMap(WorldMap map) {
-        worldMap = map;
-    }
 
     public void drawMap() {
         clearGrid();
@@ -108,19 +103,11 @@ public class SimulationPresenter implements MapChangeListener {
 
         WorldMap map = new GrassField(10);
         map.addObserver(this);
-        setWorldMap(map);
+        this.worldMap = map;
 
         List<Simulation> simulations = List.of(new Simulation(positions, moves, map));
         simulationEngine =new SimulationEngine(simulations);
         simulationEngine.runAsyncInThreadPool();
-    }
-
-    private void configureStage(Stage primaryStage, BorderPane viewRoot) {
-        var scene = new Scene(viewRoot);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation app");
-        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
-        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
 
     public void shutdown() throws InterruptedException {
