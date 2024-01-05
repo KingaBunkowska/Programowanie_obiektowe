@@ -63,7 +63,7 @@ public class SimulationApp extends Application{
 
             //preparing simulation
             List<MoveDirection> moves = OptionsParser.convert(args);
-            List<Vector2d> positions = List.of(new Vector2d(0,0), new Vector2d(2,2));
+            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,2));
 
             WorldMap map = new GrassField(10);
             map.addObserver(presenter);

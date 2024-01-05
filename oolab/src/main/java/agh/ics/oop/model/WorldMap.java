@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 import agh.ics.oop.presenter.SimulationPresenter;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface WorldMap extends MoveValidator{
 
@@ -11,7 +12,7 @@ public interface WorldMap extends MoveValidator{
 
     boolean isOccupied(Vector2d position);
 
-    WorldElement objectAt(Vector2d position);
+    Optional<WorldElement> objectAt(Vector2d position);
 
     int getId();
 
@@ -20,4 +21,6 @@ public interface WorldMap extends MoveValidator{
     Boundary getCurrentBounds();
 
     void addObserver(MapChangeListener mapChangeListener);
+
+    Collection<Animal> getOrderedAnimals();
 }

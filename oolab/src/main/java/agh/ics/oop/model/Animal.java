@@ -36,6 +36,7 @@ public class Animal implements WorldElement {
         }
     }
 
+
     public Vector2d getPosition() {
         return position;
     }
@@ -43,5 +44,7 @@ public class Animal implements WorldElement {
     public MapDirection getOrientation() {
         return orientation;
     }
+
+
 
 }

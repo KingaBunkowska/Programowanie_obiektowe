@@ -5,6 +5,9 @@ import agh.ics.oop.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -92,7 +95,7 @@ public class GrassFieldTest {
             fail("Animal on valid position was not placed");
         }
         assertTrue(map.isOccupied(position));
-        assertEquals(animal1, map.objectAt(position));
+        assertEquals(animal1, map.objectAt(position).get());
 
         // Test placing an animal in an invalid position
         Animal animal2 = new Animal(position);
@@ -130,7 +133,7 @@ public class GrassFieldTest {
             assertFalse(map.isOccupied(new Vector2d(2, 2)));
             assertTrue(map.isOccupied(new Vector2d(2, 4)));
             Assert.assertEquals(animal1.getOrientation(), MapDirection.NORTH);
-            assertEquals(animal1, map.objectAt(new Vector2d(2, 4)));
+            assertEquals(animal1, map.objectAt(new Vector2d(2, 4)).get());
         }
         catch(PositionAlreadyOccupiedException e){
             fail("Test was not initialized correctly");
@@ -156,8 +159,8 @@ public class GrassFieldTest {
             assertFalse(map2.isOccupied(new Vector2d(3, 2)));
             assertEquals(animal3.getOrientation(), MapDirection.EAST);
             assertEquals(animal4.getOrientation(), MapDirection.EAST);
-            assertEquals(animal3, map2.objectAt(new Vector2d(1, 2)));
-            assertEquals(animal4, map2.objectAt(new Vector2d(4, 2)));
+            assertEquals(animal3, map2.objectAt(new Vector2d(1, 2)).get());
+            assertEquals(animal4, map2.objectAt(new Vector2d(4, 2)).get());
         }
         catch (PositionAlreadyOccupiedException e){
             fail("Test was not initialized correctly");
@@ -173,14 +176,14 @@ public class GrassFieldTest {
         Animal animal1 = new Animal(new Vector2d(2, 2));
         try {
             map.place(animal1);
-            assertEquals(animal1, map.objectAt(new Vector2d(2, 2)));
+            assertEquals(animal1, map.objectAt(new Vector2d(2, 2)).get());
         }
         catch (PositionAlreadyOccupiedException e){
             fail("Test was not initialized correctly");
         }
 
         // nothing at
-        assertNull(map.objectAt(new Vector2d(3, 3)));
+        assertTrue(map.objectAt(new Vector2d(3, 3)).isEmpty());
 
         // canMove valid
         assertTrue(map.canMoveTo(new Vector2d(3, 3)));
@@ -194,6 +197,43 @@ public class GrassFieldTest {
         catch(PositionAlreadyOccupiedException e){
             fail("Test was not initialized correctly");
         }
+
+    }
+
+    @Test
+    public void testGetOrderedAnimals(){
+        WorldMap worldMap = new GrassField(10);
+
+        Animal animal1 = new Animal(new Vector2d(1, 1));
+        Animal animal2 = new Animal(new Vector2d(1, 5));
+        Animal animal3 = new Animal(new Vector2d(5, 5));
+        Animal animal4 = new Animal(new Vector2d(5, 1));
+        Animal animal5 = new Animal(new Vector2d(2, 2));
+        Animal animal6 = new Animal(new Vector2d(3, -10));
+
+        try {
+            worldMap.place(animal1);
+            worldMap.place(animal2);
+            worldMap.place(animal3);
+            worldMap.place(animal4);
+            worldMap.place(animal5);
+            worldMap.place(animal6);
+        }
+        catch (PositionAlreadyOccupiedException e){
+            fail("Fail while loading a test");
+        }
+
+        worldMap.move(animal1, MoveDirection.RIGHT);
+        worldMap.move(animal5, MoveDirection.RIGHT);
+        worldMap.move(animal5, MoveDirection.RIGHT);
+        worldMap.move(animal6, MoveDirection.LEFT);
+        worldMap.move(animal4, MoveDirection.RIGHT);
+
+
+        Collection<Animal> ordered= worldMap.getOrderedAnimals();
+        Collection<Animal> actual_order = new ArrayList<>(Arrays.asList(animal2, animal1, animal5, animal6, animal3, animal4));
+
+        assertEquals(actual_order, ordered);
 
     }
 }

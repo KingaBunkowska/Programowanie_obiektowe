@@ -33,12 +33,9 @@ public class SimulationTest {
 
         Simulation simulation1 = new Simulation(positions1, moves1, map1);
 
-        try{
-            simulation1.run();
-        }
-        catch(InterruptedException e){
-            fail();
-        }
+
+        simulation1.run();
+
 
         Animal firstAnimal = simulation1.getAnimals().get(0);
         assertEquals(MapDirection.EAST, firstAnimal.getOrientation());
@@ -62,12 +59,9 @@ public class SimulationTest {
 
         Simulation simulation2 = new Simulation(positions2, moves2, map2);
 
-        try{
-            simulation2.run();
-        }
-        catch(InterruptedException e){
-            fail();
-        }
+
+        simulation2.run();
+
 
         Animal animal = simulation2.getAnimals().get(0);
         assertEquals(MapDirection.NORTH, animal.getOrientation());
@@ -80,12 +74,7 @@ public class SimulationTest {
 
         Simulation simulation3 = new Simulation(positions3, moves3, map3);
 
-        try{
             simulation3.run();
-        }
-        catch(InterruptedException e){
-            fail();
-        }
 
         // Check that the simulation runs without errors for empty input
         assertNotNull(simulation3.getAnimals());

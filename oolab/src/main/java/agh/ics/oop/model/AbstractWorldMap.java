@@ -3,6 +3,8 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractWorldMap implements WorldMap {
 
@@ -51,10 +53,10 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public Collection<WorldElement> getElements(){
-        Collection<WorldElement> result = new LinkedList<>(animals.values());
-        result.addAll(grasses.values());
-        return result;
+        return Stream.concat(animals.values().stream(), grasses.values().stream())
+                .collect(Collectors.toCollection(LinkedList::new));
     }
+
 
     @Override
     public synchronized void place(Animal animal) throws PositionAlreadyOccupiedException {
@@ -84,17 +86,17 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return objectAt(position)!=null;
+        return objectAt(position).isPresent();
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
+    public Optional<WorldElement> objectAt(Vector2d position) {
         if (animals.containsKey(position)){
-            return animals.get(position);
+            return Optional.of(animals.get(position));
         }
         if (grasses.containsKey(position))
-            return grasses.get(position);
-        return null;
+            return Optional.of(grasses.get(position));
+        return Optional.empty();
     }
 
     public abstract Vector2d getLowerLeft();
@@ -104,5 +106,19 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public Boundary getCurrentBounds() {
         return new Boundary(getLowerLeft(), getUpperRight());
+    }
+
+    @Override
+    public Collection<Animal> getOrderedAnimals(){
+
+        Comparator<Animal> positionComparator = Comparator
+                .comparing((Animal animal) -> animal.getPosition().getX())
+                .reversed()
+                .thenComparing((Animal animal) -> animal.getPosition().getY())
+                .reversed();
+
+        return animals.values().stream()
+                .sorted(positionComparator)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 }
