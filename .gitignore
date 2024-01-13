@@ -2,3 +2,8 @@
 out/
 .gradle/
 build/
+project/out
+project/build
+project/gradlew
+project/gradlew.bat
+project/.idea
