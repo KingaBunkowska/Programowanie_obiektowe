@@ -8,17 +8,17 @@ import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine {
     private final List<Simulation> simulations;
-    List<Thread> threads = new LinkedList<Thread>();
-    ExecutorService executorService;
+    private final List<Thread> threads = new LinkedList<Thread>();
+    private final ExecutorService executorService;
 
     public SimulationEngine(List<Simulation> simulations){
         this.simulations = simulations;
         this.executorService = Executors.newFixedThreadPool(4);
     }
 
-    public void runSync(){
+    public void runSync() throws InterruptedException{
         for (Simulation simulation : this.simulations){
-            simulation.run();
+                simulation.run();
         }
     }
 

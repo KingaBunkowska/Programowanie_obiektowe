@@ -33,10 +33,20 @@ public class Simulation implements Runnable{
     }
 
     public void run(){
-        int currAnimalIdx = 0;
-        for (MoveDirection move : this.moves){
-            map.move(animals.get(currAnimalIdx%animals.size()), move);
-            currAnimalIdx++;
+        try {
+            int currAnimalIdx = 0;
+            for (MoveDirection move : this.moves) {
+
+                Thread.sleep(500);
+
+
+                map.move(animals.get(currAnimalIdx % animals.size()), move);
+                currAnimalIdx++;
+
+            }
+        }
+        catch(InterruptedException e){
+                throw new RuntimeException("Simulation run was interrupted");
         }
     }
     List<Animal> getAnimals() {

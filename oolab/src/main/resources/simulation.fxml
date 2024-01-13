@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="550.0" minWidth="850.0"
+            fx:controller="agh.ics.oop.presenter.SimulationPresenter"
+            stylesheets="simulation.css">
+    <top>
+        <TextField fx:id="textField"/>
+    </top>
+    <center>
+        <VBox>
+            <Label fx:id="moveLabel" textAlignment="CENTER"/>
+            <GridPane fx:id="gridPane" gridLinesVisible="true"/>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox>
+            <Button fx:id="start" text="START" onAction="#onSimulationStartClicked" alignment="CENTER"/>
+        </VBox>
+    </bottom>
+</BorderPane>
+

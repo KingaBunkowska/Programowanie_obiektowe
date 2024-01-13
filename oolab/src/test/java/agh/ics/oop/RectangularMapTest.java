@@ -69,7 +69,7 @@ public class RectangularMapTest {
                 List.of(MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD),
                 map2);
 
-        simulation2.run();
+        simulation.run();
 
         // moving onto other animal
         assertFalse(map2.isOccupied(new Vector2d(2, 2)));
