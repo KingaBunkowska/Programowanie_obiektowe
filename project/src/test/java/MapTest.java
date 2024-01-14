@@ -1,6 +1,7 @@
 import model.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -146,4 +147,26 @@ public class MapTest {
         assertEquals(new Vector2d(2, 1), animalDown.getPosition());
 
     }
+
+    @Test
+    public void portalMapTest(){
+        WorldMap worldMap = new PortalMap(5, 5, 12345);
+
+        Simulation simulation = null;
+
+        try{
+            simulation = new Simulation(worldMap, Collections.nCopies(100, new Vector2d(0, 0)));
+        }
+        catch (OutOfMapException e) {
+            System.out.println("Exception while loading the test");
+            fail();
+        }
+
+        for (int i = 0; i<10; i++) {
+            simulation.run();
+            for (Animal animal : simulation.getAnimals())
+                assertTrue(worldMap.isOnMap(animal.getPosition()));
+        }
+    }
+
 }

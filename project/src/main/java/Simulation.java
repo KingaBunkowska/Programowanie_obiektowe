@@ -1,6 +1,7 @@
 import model.*;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Simulation implements Runnable{
     public Simulation(WorldMap map, List<Vector2d> animalsPositions) throws OutOfMapException {
         this.map = map;
         for (Vector2d animalPosition : animalsPositions){
-            Animal newAnimal = new Animal(animalPosition);
+            Animal newAnimal = new Animal(animalPosition, "4");
 
             map.placeAnimal(newAnimal);
             this.animals.add(newAnimal);
@@ -44,11 +45,13 @@ public class Simulation implements Runnable{
 //        this.plantingPhase();
     }
 
-    private void cleaningPhase(){
-        for (Animal animal: animals){
-            if (animal.isDead()){
+    private void cleaningPhase() {
+        Iterator<Animal> iterator = animals.iterator();
+        while (iterator.hasNext()) {
+            Animal animal = iterator.next();
+            if (animal.isDead()) {
+                iterator.remove();
                 deadAnimals.add(animal);
-                animals.remove(animal);
                 map.cleanDeadAnimals(animal.getPosition(), animal);
             }
         }
