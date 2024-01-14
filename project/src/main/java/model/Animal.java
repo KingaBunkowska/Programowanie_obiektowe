@@ -1,6 +1,10 @@
 package model;
 
-import java.util.Map;
+import model.factories.ClassicGenomeFactory;
+import model.factories.GenomeFactory;
+
+import javax.management.InvalidAttributeValueException;
+import java.util.Objects;
 
 public class Animal{
     private MapDirection orientation;
@@ -10,18 +14,32 @@ public class Animal{
     private int age = 0;
     private int numberOfChildren = 0;
 
+    private final int id;
+    private static int currentId=0;
+
     private SimulationParameters simulationParameters;
 
-    public Animal(Vector2d position){
+    public Animal(Vector2d position, SimulationParameters simulationParameters){
         this.orientation = MapDirection.NORTH;
         this.position = position;
-        //to do zmiany na parametr
-        this.energy = 10;
+        this.simulationParameters = simulationParameters;
+        this.energy = simulationParameters.startEnergy();
+        this.genome = simulationParameters.factory().makeGenome(simulationParameters.numberOfGenes());
+        this.id = currentId++;
     }
 
-    public Animal(Vector2d position, String genes){
-        this(position);
-        genome = new ClassicGenome(genes);
+    public Animal(Vector2d position, String genes, SimulationParameters simulationParameters) throws InvalidAttributeValueException {
+        this(position, simulationParameters);
+        if (genes.length() != simulationParameters.numberOfGenes()){
+            throw new InvalidAttributeValueException("Invalid number of genes. Loaded genes: "+genes+"  Expected number of genes: "+ simulationParameters.numberOfGenes());
+        }
+        this.genome = simulationParameters.factory().makeGenome(genes);
+    }
+
+    public Animal(Vector2d position, String rightGenes, String leftGenes, int startEnergy, SimulationParameters simulationParameters){
+        this(position, simulationParameters);
+        this.energy = startEnergy;
+        this.genome = simulationParameters.factory().makeGenome(rightGenes, leftGenes);
     }
 
     public String toString() {
@@ -41,17 +59,18 @@ public class Animal{
         return this.position.equals(position);
     }
 
-    public void move(MoveValidator moveValidator){
-        int number_of_rotation = genome.next_direction();
-        for (int i=0; i<number_of_rotation; i++)
+    public void move (MoveValidator moveValidator) {
+        int numberOfRotation = genome.nextDirection();
+        for (int i = 0; i < numberOfRotation; i++)
             this.orientation = orientation.next();
 
-        Vector2d new_position = position.add(orientation.toUnitVector());
-        MoveGuidelines moveGuidelines = moveValidator.findPosition(this, new_position);
+        Vector2d newPosition = position.add(orientation.toUnitVector());
+        MoveGuidelines moveGuidelines = moveValidator.findPosition(this, newPosition);
 
         this.position = moveGuidelines.newPosition();
         this.energy = this.energy - moveGuidelines.energyCost();
         this.orientation = moveGuidelines.newOrientation();
+
     }
 
     public Vector2d getPosition() {
@@ -67,8 +86,7 @@ public class Animal{
     }
 
     public void eat(){
-//        this.energy += simulationParameters.getGrassEnergy();
-        this.energy += 10;
+        this.energy += simulationParameters.energyOfGrass();
     }
 
     public int getEnergy(){
@@ -81,5 +99,32 @@ public class Animal{
 
     public int getNumberOfChildren() {
         return numberOfChildren;
+    }
+
+    public boolean isHealthy() {
+        return this.energy>=simulationParameters.energyToHealth();
+    }
+
+    public void breed(){
+        this.energy = this.energy - simulationParameters.energyToBreed();
+    }
+
+    public Genome getGenome(){
+        return this.genome;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, age);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
+        if (!(other instanceof Vector2d))
+            return false;
+        Vector2d that = (Vector2d) other;
+        return this.hashCode() == that.hashCode();
     }
 }

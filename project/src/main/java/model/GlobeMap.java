@@ -2,8 +2,8 @@ package model;
 
 public class GlobeMap extends AbstractWorldMap{
 
-    public GlobeMap(int width, int height) {
-        super(width, height);
+    public GlobeMap(int width, int height, SimulationParameters simulationParameters) {
+        super(width, height, simulationParameters);
     }
 
     @Override

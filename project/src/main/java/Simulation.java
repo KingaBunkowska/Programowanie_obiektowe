@@ -1,9 +1,9 @@
 import model.*;
+import model.util.GrassPositionGenerator;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import javax.management.InvalidAttributeValueException;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class Simulation implements Runnable{
 
@@ -12,23 +12,24 @@ public class Simulation implements Runnable{
 
     private final WorldMap map;
 
-    public Simulation(WorldMap map, List<Vector2d> animalsPositions) throws OutOfMapException {
-        this.map = map;
-        for (Vector2d animalPosition : animalsPositions){
-            Animal newAnimal = new Animal(animalPosition, "4");
+    private final SimulationParameters simulationParameters;
 
-            map.placeAnimal(newAnimal);
-            this.animals.add(newAnimal);
-
-        }
+    public Simulation(WorldMap map, int numberOfAnimals, SimulationParameters simulationParameters) throws OutOfMapException {
+        this(map, IntStream.range(0, numberOfAnimals).mapToObj(i->map.getRandomPosition()).toList(), simulationParameters);
     }
 
-    public Simulation(List<Animal> animals, WorldMap map) throws OutOfMapException {
+    public Simulation(WorldMap map, List<Vector2d> animalsPositions, SimulationParameters simulationParameters) throws OutOfMapException {
+        this(animalsPositions.stream().map((Vector2d pos) -> new Animal(pos, simulationParameters)).toList(), map, simulationParameters);
+    }
+
+    public Simulation(List<Animal> animals, WorldMap map, SimulationParameters simulationParameters) throws OutOfMapException {
         this.map = map;
         for (Animal animal : animals){
             map.placeAnimal(animal);
             this.animals.add(animal);
         }
+
+        this.simulationParameters = simulationParameters;
     }
 
     public void run(){
@@ -41,8 +42,8 @@ public class Simulation implements Runnable{
         this.cleaningPhase();
         this.movingPhase();
         this.eatingPhase();
-//        this.breedingPhase();
-//        this.plantingPhase();
+        this.breedingPhase();
+        this.plantingPhase();
     }
 
     private void cleaningPhase() {
@@ -82,7 +83,40 @@ public class Simulation implements Runnable{
     }
 
     private void breedingPhase(){
-        List<Vector2d> animalsMeetingPosition = map.getAnimalsMeetingPosition();
+        List<Couple> couples = map.getAnimalCouples();
+
+        for (Couple couple: couples){
+            try{
+                Animal child = couple.makeChild(simulationParameters);
+                map.placeAnimal(child);
+                animals.add(child);
+            }catch (OutOfMapException e) {
+                System.out.println("Exception child appeared out of map");
+            }
+
+
+        }
+    }
+
+    private void plantingPhase(){
+        try {
+            GrassPositionGenerator grassPositionGenerator = new GrassPositionGenerator(map, map.getLowerLeft(), map.getUpperRight(), map.getPreferableLowerLeft(), map.getPreferableUpperRight(), simulationParameters.numberOfGrassesGrowing());
+            for (Vector2d position: grassPositionGenerator) {
+                map.placeGrass(position);
+            }
+        }
+        catch (OutOfMapException e){
+            System.out.println("Exception: grass placed out of map");
+            e.printStackTrace();
+        }
+        catch (PositionAlreadyOccupiedException e){
+            System.out.println("Exception: grass already in position");
+            e.printStackTrace();
+        }
+    }
+
+    public SimulationParameters getParameters(){
+        return simulationParameters;
     }
 
     List<Animal> getAnimals() {

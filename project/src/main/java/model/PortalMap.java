@@ -3,17 +3,10 @@ package model;
 import java.util.Random;
 
 public class PortalMap extends AbstractWorldMap{
-
-    int energyToBreed = 5;
     Random random;
-    public PortalMap(int width, int height, int seed){
-        super(width, height);
-        this.random = new Random(seed);
-    }
 
-    public PortalMap(int width, int height){
-        super(width, height);
-        this.random = new Random();
+    public PortalMap(int width, int height, SimulationParameters simulationParameters){
+        super(width, height, simulationParameters);
     }
 
     @Override
@@ -23,10 +16,8 @@ public class PortalMap extends AbstractWorldMap{
         }
 
         return new MoveGuidelines(
-                new Vector2d(
-                        random.nextInt(getLowerLeft().getX(), getUpperRight().getX()),
-                        random.nextInt(getLowerLeft().getY(), getUpperRight().getY())),
-                energyToBreed,
+                getRandomPosition(),
+                simulationParameters.energyToBreed(),
                 animal.getOrientation()
                 );
     }

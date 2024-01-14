@@ -7,12 +7,16 @@ public abstract class AbstractWorldMap implements WorldMap {
     private static int nextId = 0;
     private final int id;
 
+    private final Random random = new Random();
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
+    private final Vector2d preferableLowerLeft;
+    private final Vector2d preferableUpperRight;
+    protected final SimulationParameters simulationParameters;
 
     private final Map<Vector2d, MapField> board;
 
-    public AbstractWorldMap(int width, int height){
+    public AbstractWorldMap(int width, int height, SimulationParameters simulationParameters){
         this.id = nextId;
         nextId += 1;
         lowerLeft = new Vector2d(0, 0);
@@ -20,12 +24,23 @@ public abstract class AbstractWorldMap implements WorldMap {
 
         board = new HashMap<>();
 
-        for (int i=0; i<=width+1; i++){
-            for (int j=0; j<=height+1; j++){
+        for (int i=0; i<=width-1; i++){
+            for (int j=0; j<=height-1; j++){
                 Vector2d position = new Vector2d(i, j);
                 board.put(position, new MapField(position));
             }
         }
+
+        this.simulationParameters = simulationParameters;
+
+        int rows = ((int)(0.2 * width * height))/width;
+        if (((int)(0.2 * width * height))%width>=0.5*width){
+            rows+=1;
+        }
+        this.preferableLowerLeft = new Vector2d(0, (height-rows)/2);
+        this.preferableUpperRight = new Vector2d(height-1, (height-rows)/2 + rows - 1);
+
+
     }
 
     @Override
@@ -42,15 +57,21 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public List<Vector2d> getAnimalsMeetingPosition(){
-        List<Vector2d> animalsMeetingPosition = new LinkedList<>();
+    public List<Couple> getAnimalCouples(){
+        List<Couple> animalCouples = new LinkedList<>();
 
         for (MapField mapField : board.values()){
-            if (mapField.getNumberOfAnimals()>=2){
-                getAnimalsMeetingPosition().add(mapField.getPosition());
+            if (mapField.getSecondAnimal().isPresent() && mapField.getSecondAnimal().get().isHealthy()){
+                animalCouples.add(new Couple(mapField.getTopAnimal().get(), mapField.getSecondAnimal().get()));
             }
         }
-        return animalsMeetingPosition;
+        return animalCouples;
+    }
+
+    @Override
+    public Vector2d getRandomPosition(){
+        return new Vector2d(random.nextInt(getLowerLeft().getX(), getUpperRight().getX()),
+                            random.nextInt(getLowerLeft().getY(), getUpperRight().getY()));
     }
 
     @Override
@@ -120,13 +141,26 @@ public abstract class AbstractWorldMap implements WorldMap {
         return board.get(position).isPresentGrass();
     }
 
+    @Override
     public Vector2d getLowerLeft(){
         return this.lowerLeft;
     }
 
+    @Override
     public Vector2d getUpperRight(){
         return this.upperRight;
     }
+
+    @Override
+    public Vector2d getPreferableLowerLeft(){
+        return this.preferableLowerLeft;
+    }
+
+    @Override
+    public Vector2d getPreferableUpperRight(){
+        return this.preferableUpperRight;
+    }
+
 
     @Override
     public abstract MoveGuidelines findPosition(Animal animal, Vector2d desiredPosition);

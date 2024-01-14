@@ -14,7 +14,6 @@ public interface WorldMap extends MoveValidator {
     Optional<Animal> animalAt(Vector2d position);
 
     int getId();
-
     MoveGuidelines findPosition(Animal animal, Vector2d desiredPosition);
 
     boolean isOccupiedByGrass(Vector2d position);
@@ -23,6 +22,14 @@ public interface WorldMap extends MoveValidator {
 
     void cleanDeadAnimals(Vector2d position, Animal animal);
 
-    List <Vector2d> getAnimalsMeetingPosition();
+    List <Couple> getAnimalCouples();
+
+    Vector2d getRandomPosition();
+
+    Vector2d getLowerLeft();
+    Vector2d getUpperRight();
+
+    Vector2d getPreferableLowerLeft();
+    Vector2d getPreferableUpperRight();
 
 }
