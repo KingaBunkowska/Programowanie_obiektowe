@@ -1,5 +1,7 @@
-import model.*;
-import model.factories.ClassicGenomeFactory;
+
+import oop.Simulation;
+import oop.model.*;
+import oop.model.factories.ClassicGenomeFactory;
 import org.junit.jupiter.api.Test;
 
 import javax.management.InvalidAttributeValueException;
@@ -7,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class SimulationTest {
 
@@ -20,15 +21,25 @@ public class SimulationTest {
             3,
             new ClassicGenomeFactory(0,3)
     );
+
+    SimulationParameters simulationParametersWithoutGrass = new SimulationParameters(
+            10,
+            0,
+            10,
+            4,
+            0,
+            3,
+            new ClassicGenomeFactory(0,3)
+    );
     @Test
     public void cleaningDeadAnimalsTest(){
-        WorldMap worldMap = new GlobeMap(4, 4, simulationParameters);
+        WorldMap worldMap = new GlobeMap(4, 4, simulationParametersWithoutGrass);
 
         try {
-            Animal animal = new Animal(new Vector2d(3, 1), "040", simulationParameters);
-            Simulation simulation = new Simulation(List.of(animal), worldMap, simulationParameters);
+            Animal animal = new Animal(new Vector2d(3, 1), "040", simulationParametersWithoutGrass);
+            Simulation simulation = new Simulation(List.of(animal), worldMap, simulationParametersWithoutGrass);
 
-            for (int i=0; i< simulationParameters.startEnergy(); i++){
+            for (int i=0; i< simulationParametersWithoutGrass.startEnergy(); i++){
                 simulation.run();
             }
             simulation.run();

@@ -1,5 +1,7 @@
-import model.*;
-import model.factories.ClassicGenomeFactory;
+
+import oop.Simulation;
+import oop.model.*;
+import oop.model.factories.ClassicGenomeFactory;
 import org.junit.jupiter.api.Test;
 
 import javax.management.InvalidAttributeValueException;
