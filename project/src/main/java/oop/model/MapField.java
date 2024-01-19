@@ -1,6 +1,7 @@
 package oop.model;
 
-import javax.swing.text.html.Option;
+import oop.model.listners.MapFieldChangeListener;
+
 import java.util.*;
 
 public class MapField {
@@ -8,6 +9,8 @@ public class MapField {
     private Vector2d position;
     private final List<Animal> animals;
     private final Comparator<Animal> comparator;
+
+    private List<MapFieldChangeListener> listeners = new LinkedList<>();
 
     public MapField(Vector2d position){
         this.position = position;
@@ -46,10 +49,14 @@ public class MapField {
     public void add(Animal animal){
         animals.add(animal);
         animals.sort(comparator);
+        for (MapFieldChangeListener listener:listeners)
+            listener.mapFieldChanged("Added animal");
     }
 
     public void remove(Animal animal){
         animals.remove(animal);
+        for (MapFieldChangeListener listener:listeners)
+            listener.mapFieldChanged("Removed animal");
     }
 
     public boolean isPresentGrass(){
@@ -60,9 +67,31 @@ public class MapField {
 
     public void addGrass(){
         this.presentGrass = true;
+        for (MapFieldChangeListener listener:listeners)
+            listener.mapFieldChanged("Added grass");
     }
 
     public void removeGrass(){
         this.presentGrass = false;
+        for (MapFieldChangeListener listener:listeners)
+            listener.mapFieldChanged("Removed grass");
+    }
+
+    public void setListener(MapFieldChangeListener mapFieldChangeListener){
+        this.listeners.add(mapFieldChangeListener);
+        mapFieldChangeListener.mapFieldChanged("Initial state");
+    }
+
+    public void removeListener(MapFieldChangeListener listener){
+        this.listeners.remove(listener);
+    }
+
+    public boolean hasAnimalWithGenome(Genome genome) {
+        for (Animal animal : animals){
+            if (animal.getGenome().equals(genome)){
+                return true;
+            }
+        }
+        return false;
     }
 }

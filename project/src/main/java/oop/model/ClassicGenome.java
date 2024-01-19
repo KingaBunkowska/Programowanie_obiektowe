@@ -12,4 +12,6 @@ public class ClassicGenome extends AbstractGenome {
     public ClassicGenome(String leftPart, String rightPart, int minimumMutations, int maximumMutations) {
         super(leftPart, rightPart, minimumMutations, maximumMutations);
     }
+
+
 }

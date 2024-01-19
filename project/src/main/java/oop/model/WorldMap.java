@@ -1,5 +1,6 @@
 package oop.model;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,7 @@ public interface WorldMap extends MoveValidator {
 
     Vector2d getPreferableLowerLeft();
     Vector2d getPreferableUpperRight();
+
+    MapField getMapField(Vector2d position);
 
 }

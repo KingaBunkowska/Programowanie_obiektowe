@@ -2,6 +2,7 @@ package oop;
 
 import oop.model.*;
 import oop.model.util.GrassPositionGenerator;
+import oop.presenter.SimulationPresenter;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -10,6 +11,10 @@ public class Simulation implements Runnable{
 
     private final List<Animal> animals = new LinkedList<>();
     private final List<Animal> deadAnimals = new LinkedList<>();
+
+    private final SimulationStatistics simulationStatistics = new SimulationStatistics();
+
+    private boolean isPaused = false;
 
     private final WorldMap map;
 
@@ -34,6 +39,7 @@ public class Simulation implements Runnable{
         for (Animal animal : animals){
             map.placeAnimal(animal);
             this.animals.add(animal);
+            this.simulationStatistics.addGenome(animal.getGenome());
         }
 
         this.simulationParameters = simulationParameters;
@@ -43,9 +49,11 @@ public class Simulation implements Runnable{
     public void run(){
         try {
             while (true) {
-                Thread.sleep(100);
-                runDay();
-                System.out.println(day);
+                Thread.sleep(1000);
+                if (!isPaused){
+                    runDay();
+                    System.out.println(day);
+                }
             }
         }catch (InterruptedException e) {
             System.out.println("Simulation ended its existance");
@@ -78,6 +86,7 @@ public class Simulation implements Runnable{
                 deadAnimals.add(animal);
                 map.cleanDeadAnimals(animal.getPosition(), animal);
                 animal.becomeDead(day);
+                simulationStatistics.removeGenome(animal.getGenome());
             }
         }
     }
@@ -113,6 +122,7 @@ public class Simulation implements Runnable{
                 Animal child = couple.makeChild(simulationParameters);
                 map.placeAnimal(child);
                 animals.add(child);
+                simulationStatistics.addGenome(child.getGenome());
             }catch (OutOfMapException e) {
                 System.out.println("Exception child appeared out of map");
             }
@@ -150,4 +160,14 @@ public class Simulation implements Runnable{
         return Collections.unmodifiableList(animals);
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
+    public void changePause(){
+        this.isPaused = !isPaused;
+    }
+
+    public void setListenerForStatistic(SimulationPresenter simulationPresenter) {
+        simulationStatistics.setListener(simulationPresenter);
+    }
 }

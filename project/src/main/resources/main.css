@@ -4,7 +4,7 @@ BorderPane {
 
 #textField {
     -fx-padding: 20;
-    -fx-pref-height: 40;
+    -fx-pref-height: 20;
     -fx-font-size: 18;
     -fx-font-weight: bold;
     -fx-background-color: rgb(109, 117, 121);
@@ -26,6 +26,17 @@ Label{
     -fx-text-fill: rgb(109, 117, 121);
 }
 
+Spinner{
+    -fx-max-width: 70;
+}
+
+button {
+    -fx-background-color: #5e9ca0;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 100px;
+}
+
 #moveLabel {
     -fx-font-size: 18;
     -fx-font-weight: bold;
@@ -37,6 +48,7 @@ Label{
 }
 
 
+
 #start {
     -fx-pref-width: 256;
     -fx-pref-height: 64;
@@ -44,6 +56,7 @@ Label{
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-background-color: #4caf50;
+    -fx-border-radius: 100;
 }
 
 .small-spinner .spinner-arrow,
@@ -67,12 +80,16 @@ Label{
     -fx-text-fill: #333333;
 }
 
-.button {
-    -fx-background-color: #5e9ca0;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-}
+
 
 .button:hover {
     -fx-background-color: #3b7a57;
+}
+
+.inputDescription {
+    -fx-font-size: 12;
+    -fx-pref-height: 10;
+}
+
+.configBox {
 }

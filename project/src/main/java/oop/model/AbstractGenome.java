@@ -69,4 +69,22 @@ public abstract class AbstractGenome implements Genome{
         return genome.substring(splitting_index);
     }
 
+    @Override
+    public String getGenome(){
+        return genome;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Genome genome = (Genome) o;
+        return Objects.equals(this.genome, genome.getGenome());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(genome);
+    }
+
 }

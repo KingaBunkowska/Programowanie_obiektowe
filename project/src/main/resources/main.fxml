@@ -2,19 +2,12 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<?import oop.model.AbstractGenome?>
-<?import java.lang.Integer?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="oop.presenter.MainPresenter"
@@ -27,83 +20,73 @@
         <HBox>
             <VBox>
                 <!-- Width -->
-                <Label text="Width:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="widthSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                    <Label text="Width:" styleClass="inputDescription"/>
+                    <Spinner fx:id="widthSpinner" min="1" max="30" initialValue="10" maxWidth="40" editable="true"/>
 
                 <!-- Height -->
-                <Label text="Height:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="heightSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
-
+                    <Label text="Height:" styleClass="inputDescription"/>
+                    <Spinner fx:id="heightSpinner" min="1" max="30" initialValue="10" maxWidth="40" editable="true"/>
                 <!-- Map Variant -->
-                <Label text="Map Variant:" styleClass="inputDescritpion"/>
-                <ChoiceBox fx:id="mapChooseBox">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Globe Map"/>
-                            <String fx:value="Portal Map"/>
-                        </FXCollections>
-                    </items>
-                </ChoiceBox>
+                    <Label text="Map Variant:" styleClass="inputDescription"/>
+                    <ChoiceBox fx:id="mapChooseBox">
+                        <String fx:value="Globe Map"/>
+                        <String fx:value="Portal Map"/>
+                    </ChoiceBox>
 
                 <!-- starting grass number -->
-                <Label text="Starting number of grass:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="startGrassSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                    <Label text="Starting number of grass:" styleClass="inputDescription" />
+                    <Spinner fx:id="startGrassSpinner" min="0" max = "100" initialValue="10" editable="true"/>
 
                 <!-- regrowth of grass number -->
-                <Label text="Grasses to regrow every day:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="grassGrowingSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                    <Label text="Grasses to regrow every day:" styleClass="inputDescription"/>
+                    <Spinner fx:id="grassGrowingSpinner" min="0" max="100" initialValue="10" editable="true"/>
 
                 <!-- energy of grass -->
-                <Label text="Energy for eating grass:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="energyOfGrassSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
 
-
-                <!-- starting animal number -->
-                <Label text="Starting number of animals:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="startAnimalSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
-
-
+                    <Label text="Energy for eating grass:" styleClass="inputDescription"/>
+                    <Spinner fx:id="energyOfGrassSpinner" min="0" max="1000" initialValue="10" editable="true"/>
 
             </VBox>
             <VBox>
+
+                <!-- starting animal number -->
+                <Label text="Starting number of animals:" styleClass="inputDescription"/>
+                <Spinner fx:id="startAnimalSpinner" min="0" max="1000" initialValue="10" editable="true"/>
+
                 <!-- starting energy of Animal number -->
-                <Label text="Starting energy of animal:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="startAnimalEnergySpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Starting energy of animal:" styleClass="inputDescription"/>
+                <Spinner fx:id="startAnimalEnergySpinner" min="1" max="1000" initialValue="10" editable="true"/>
 
                 <!-- energy for Animal to be healthy -->
-                <Label text="Energy for animal to be healthy:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="EnergyToHealthSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Energy for animal to be healthy:" styleClass="inputDescription"/>
+                <Spinner fx:id="energyToHealthSpinner" min="2" max="1000" initialValue="10" editable="true"/>
 
                 <!-- energy to breed -->
-                <Label text="Energy for animal to breed:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="EnergyToBreedSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Energy for animal to breed:" styleClass="inputDescription"/>
+                <Spinner fx:id="energyToBreedSpinner" min="1" max="9" initialValue="5" editable="true"/>
 
             </VBox>
             <VBox>
                 <!-- Genome Variant -->
-                <Label text="Genome Variant:" styleClass="inputDescritpion"/>
+                <Label text="Genome Variant:" styleClass="inputDescription"/>
                 <ChoiceBox fx:id="genomeChoiceBox">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Classic Genome"/>
-                            <String fx:value="Two Ways Genome"/>
-                        </FXCollections>
-                    </items>
+                    <String fx:value="Classic Genome"/>
+                    <String fx:value="Two Ways Genome"/>
                 </ChoiceBox>
 
                 <!-- number of genes -->
-                <Label text="Number of genes:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="NumberOfGenesSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Number of genes:" styleClass="inputDescription"/>
+                <Spinner fx:id="numberOfGenesSpinner" min="2" max="1000" initialValue="7"/>
 
 
                 <!-- minimal number of mutations -->
-                <Label text="Minimal number of mutations:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="MinimalMutationsSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Minimal number of mutations:" styleClass="inputDescription"/>
+                <Spinner fx:id="minimalMutationsSpinner" min="0" max = "3" initialValue="1"/>
 
 
                 <!-- maximal number of mutations -->
-                <Label text="Maximal number of mutations:" styleClass="inputDescritpion"/>
-                <Spinner fx:id="MaximalMutationsSpinner" min="2" max="30" initialValue="10" maxWidth="75"/>
+                <Label text="Maximal number of mutations:" styleClass="inputDescription"/>
+                <Spinner fx:id="maximalMutationsSpinner" min="0" max = "7" initialValue="3"/>
 
             </VBox>
         </HBox>

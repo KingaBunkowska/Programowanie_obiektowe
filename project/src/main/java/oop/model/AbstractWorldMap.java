@@ -24,9 +24,10 @@ public abstract class AbstractWorldMap implements WorldMap {
 
         board = new HashMap<>();
 
-        for (int i=0; i<=width-1; i++){
-            for (int j=0; j<=height-1; j++){
-                Vector2d position = new Vector2d(i, j);
+        for (int i=0; i<=height-1; i++){
+            for (int j=0; j<=width-1; j++){
+
+                Vector2d position = new Vector2d(j, i);
                 board.put(position, new MapField(position));
             }
         }
@@ -38,7 +39,7 @@ public abstract class AbstractWorldMap implements WorldMap {
             rows+=1;
         }
         this.preferableLowerLeft = new Vector2d(0, (height-rows)/2);
-        this.preferableUpperRight = new Vector2d(height-1, (height-rows)/2 + rows - 1);
+        this.preferableUpperRight = new Vector2d(width-1, (height-rows)/2 + rows - 1);
     }
 
     @Override
@@ -159,7 +160,12 @@ public abstract class AbstractWorldMap implements WorldMap {
         return this.preferableUpperRight;
     }
 
+    @Override
+    public MapField getMapField(Vector2d position){
+        return board.get(position);
+    }
 
     @Override
     public abstract MoveGuidelines findPosition(Animal animal, Vector2d desiredPosition);
+
 }

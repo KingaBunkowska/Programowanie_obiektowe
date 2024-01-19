@@ -57,9 +57,16 @@ public class SimulationApp extends Application{
             SimulationPresenter presenter = loader.getController();
 
             Simulation simulation = new Simulation(map, startAnimals, startGrasses, simulationParameters);
+            presenter.setMap(map);
+            presenter.setSimulation(simulation);
+
+            presenter.initializeMap();
+
             Thread thread = new Thread(simulation);
             threads.add(thread);
             thread.start();
+
+
 
             Stage newWindowStage = new Stage();
             configureStage(newWindowStage, newWindowRoot, "oop.Simulation Window");

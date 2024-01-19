@@ -5,9 +5,8 @@ import oop.model.OutOfMapException;
 import oop.model.SimulationParameters;
 import oop.model.WorldMap;
 import oop.model.factories.ClassicGenomeFactory;
-import oop.Simulation;
 
-public class Main {
+public class World {
     public static void main(String[] args) {
         SimulationParameters simulationParameters = new SimulationParameters(
                 10,
@@ -27,7 +26,7 @@ public class Main {
             e.printStackTrace();
         }
 
-
+        WorldGUI.main(args);
 
     }
 }

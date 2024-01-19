@@ -39,21 +39,21 @@ public class MainPresenter{
     @FXML
     private Spinner<Integer> startAnimalEnergySpinner;
     @FXML
-    private Spinner<Integer> EnergyToHealthSpinner;
+    private Spinner<Integer> energyToHealthSpinner;
     @FXML
-    private Spinner<Integer> EnergyToBreedSpinner;
+    private Spinner<Integer> energyToBreedSpinner;
 
     @FXML
-    private Spinner<Integer> NumberOfGenesSpinner;
+    private Spinner<Integer> numberOfGenesSpinner;
 
     @FXML
     private ChoiceBox<String> genomeChoiceBox;
     @FXML
     private ChoiceBox<String> mapChooseBox;
     @FXML
-    private Spinner<Integer> MinimalMutationsSpinner;
+    private Spinner<Integer> minimalMutationsSpinner;
     @FXML
-    private Spinner<Integer> MaximalMutationsSpinner;
+    private Spinner<Integer> maximalMutationsSpinner;
     List<SimulationPresenter> simulationPresenters = new LinkedList<>();
 
     SimulationApp simulationApp;
@@ -73,12 +73,41 @@ public class MainPresenter{
         }
     }
 
+    private class SpinnerChangeHigherLimitation implements ChangeListener<Integer>{
+
+        private final Spinner<Integer> higherSpinner;
+        private final Spinner<Integer> lowerSpinner;
+        private int difference;
+
+        public SpinnerChangeHigherLimitation(Spinner<Integer> higher,
+                                             Spinner<Integer> lower,
+                                             int difference){
+            super();
+            this.higherSpinner = higher;
+            this.lowerSpinner = lower;
+            this.difference = difference;
+        }
+
+        @Override
+        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+            int highest = higherSpinner.getValue();
+            SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory = (SpinnerValueFactory.IntegerSpinnerValueFactory) lowerSpinner.getValueFactory();
+            valueFactory.setMax(highest-difference);
+        }
+    }
+
     public void initialize() {
         genomeChoiceBox.setValue("Classic Genome");
         mapChooseBox.setValue("Globe Map");
 
         widthSpinner.valueProperty().addListener(new SpinnerChangeListenerSizeLimitation());
         heightSpinner.valueProperty().addListener(new SpinnerChangeListenerSizeLimitation());
+
+        energyToHealthSpinner.valueProperty().addListener(new SpinnerChangeHigherLimitation(energyToHealthSpinner, energyToBreedSpinner, 1));
+
+        maximalMutationsSpinner.valueProperty().addListener(new SpinnerChangeHigherLimitation(maximalMutationsSpinner, minimalMutationsSpinner, 0));
+
+        numberOfGenesSpinner.valueProperty().addListener(new SpinnerChangeHigherLimitation(numberOfGenesSpinner, maximalMutationsSpinner, 0));
     }
 
     @FXML
@@ -99,9 +128,9 @@ public class MainPresenter{
     private SimulationParameters makeSimulationParameters(GenomeFactory genomeFactory){
 
         int startAnimalEnergy = startAnimalEnergySpinner.getValue();
-        int energyToHealth = EnergyToHealthSpinner.getValue();
-        int energyToBreed = EnergyToBreedSpinner.getValue();
-        int numberOfGenes = NumberOfGenesSpinner.getValue();
+        int energyToHealth = energyToHealthSpinner.getValue();
+        int energyToBreed = energyToBreedSpinner.getValue();
+        int numberOfGenes = numberOfGenesSpinner.getValue();
         int grassGrowing = grassGrowingSpinner.getValue();
         int energyOfGrass = energyOfGrassSpinner.getValue();
 
@@ -118,8 +147,8 @@ public class MainPresenter{
     private GenomeFactory makeGenomeFactory() {
         String genomeName = genomeChoiceBox.getValue();
 
-        int minimalMutations = MinimalMutationsSpinner.getValue();
-        int maximalMutations = MaximalMutationsSpinner.getValue();
+        int minimalMutations = minimalMutationsSpinner.getValue();
+        int maximalMutations = maximalMutationsSpinner.getValue();
 
         GenomeFactory genomeFactory = null;
         if (Objects.equals(genomeName, "Classic Genome")){
