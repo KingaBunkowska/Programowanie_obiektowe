@@ -3,7 +3,6 @@ package oop.presenter;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -12,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import oop.Simulation;
 import oop.model.Animal;
-import oop.model.Genome;
 import oop.model.MapField;
 import oop.model.listners.MapFieldChangeListener;
 
@@ -33,8 +31,6 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
 
     public WorldElementBox(MapField mapField, SimulationPresenter simulationPresenter, Simulation simulation, int widthOfBox, int heightOfBox, boolean isPreferableField) {
         this.mapField = mapField;
-        mapField.setListener(this);
-
         this.simulationPresenter = simulationPresenter;
         this.animalRepresentation =new Rectangle();
         this.setAlignment(Pos.CENTER);
@@ -44,6 +40,8 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
         this.animalHeight=heightOfBox/2;
         this.isPreferableField = isPreferableField;
 
+        mapField.setListener(this);
+
 //        this.setOnMouseClicked(mouseEvent -> {
 //            if(mouseEvent.getButton() == MouseButton.PRIMARY){
 //                handleMouseClicked();
@@ -51,7 +49,7 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
 //        });
     }
 
-    public void update() {
+    private void updateAnimal() {
         this.getChildren().removeAll(animalRepresentation);
         if (this.mapField.getTopAnimal().isPresent()) {
             Animal topAnimal = mapField.getTopAnimal().get();
@@ -75,7 +73,7 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
         }
     }
 
-    void setBackground(){
+    private void setBackground(){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255), CornerRadii.EMPTY, Insets.EMPTY)));
         if(mapField.isPresentGrass())
             this.setBackground(new Background(new BackgroundFill(Color.rgb(0,150,0), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -83,32 +81,25 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
         if (isPreferableField && simulation.isPaused()){
             this.setBackground(new Background(new BackgroundFill(Color.rgb(131,255, 100), CornerRadii.EMPTY, Insets.EMPTY)));
         }
+
+        if (mapField.hasAnimalWithGenome(simulationPresenter.getMostPopularGenome()) && simulation.isPaused()){
+            this.setBackground(new Background(new BackgroundFill(Color.rgb(150,0, 200), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
 //         else if(mapField.hasTrackedAnimal)
     }
 
-    void setPauseBackground(Genome genome){
-        if (mapField.hasAnimalWithGenome(genome)){
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(150,0, 200), CornerRadii.EMPTY, Insets.EMPTY)));
-
-        }
-        else if (isPreferableField){
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(131,255, 100), CornerRadii.EMPTY, Insets.EMPTY)));
-        }
-
-        else{
+    public void update(){
+        Platform.runLater(()->{
+            updateAnimal();
             setBackground();
-        }
+                });
     }
 
     @Override
     public void mapFieldChanged(String message) {
-        Platform.runLater(() -> {
-            update();
-//            System.out.println(mapField.getPosition() + " " + message);
-            setBackground();
-        });
+        this.update();
     }
-
 
 
 //    private void handleMouseClicked(){

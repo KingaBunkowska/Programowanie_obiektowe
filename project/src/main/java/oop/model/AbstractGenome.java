@@ -87,4 +87,9 @@ public abstract class AbstractGenome implements Genome{
         return Objects.hash(genome);
     }
 
+    @Override
+    public String toString(){
+        return genome;
+    }
+
 }

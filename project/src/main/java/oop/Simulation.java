@@ -3,6 +3,7 @@ package oop;
 import oop.model.*;
 import oop.model.util.GrassPositionGenerator;
 import oop.presenter.SimulationPresenter;
+import oop.presenter.WorldElementBox;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -170,4 +171,5 @@ public class Simulation implements Runnable{
     public void setListenerForStatistic(SimulationPresenter simulationPresenter) {
         simulationStatistics.setListener(simulationPresenter);
     }
+
 }

@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ListView?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
@@ -15,15 +16,16 @@
 
     <center>
         <VBox>
-            <Label fx:id="moveLabel" textAlignment="CENTER"/>
             <GridPane fx:id="gridPane" gridLinesVisible="true"/>
         </VBox>
     </center>
     <right>
-        <HBox>
+        <VBox>
+            <Label text="Most popular genotypes:"/>
+            <ListView fx:id="mostCommonGenotypes" prefHeight="140" prefWidth="150"/>
             <Button fx:id="pause" text="PAUSE" onAction="#onSimulationPauseClicked" alignment="CENTER"/>
 
-        </HBox>
+        </VBox>
     </right>
 </BorderPane>
 

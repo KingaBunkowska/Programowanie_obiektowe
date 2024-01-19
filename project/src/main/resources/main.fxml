@@ -76,17 +76,17 @@
 
                 <!-- number of genes -->
                 <Label text="Number of genes:" styleClass="inputDescription"/>
-                <Spinner fx:id="numberOfGenesSpinner" min="2" max="1000" initialValue="7"/>
+                <Spinner fx:id="numberOfGenesSpinner" min="2" max="1000" initialValue="7" editable="true"/>
 
 
                 <!-- minimal number of mutations -->
                 <Label text="Minimal number of mutations:" styleClass="inputDescription"/>
-                <Spinner fx:id="minimalMutationsSpinner" min="0" max = "3" initialValue="1"/>
+                <Spinner fx:id="minimalMutationsSpinner" min="0" max = "3" initialValue="1" editable="true"/>
 
 
                 <!-- maximal number of mutations -->
                 <Label text="Maximal number of mutations:" styleClass="inputDescription"/>
-                <Spinner fx:id="maximalMutationsSpinner" min="0" max = "7" initialValue="3"/>
+                <Spinner fx:id="maximalMutationsSpinner" min="0" max = "7" initialValue="3" editable="true"/>
 
             </VBox>
         </HBox>

@@ -2,9 +2,9 @@ package oop.model;
 
 public interface Genome {
 
-    public int nextDirection();
-    public String getLeftPart(int splitting_index);
-    public String getRightPart(int splitting_index);
+    int nextDirection();
+    String getLeftPart(int splitting_index);
+    String getRightPart(int splitting_index);
 
     Object getGenome();
 }

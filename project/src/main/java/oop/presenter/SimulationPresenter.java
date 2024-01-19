@@ -2,27 +2,18 @@ package oop.presenter;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import oop.Simulation;
 import oop.SimulationApp;
-import oop.SimulationEngine;
 import oop.SimulationStatistics;
 import oop.model.Genome;
-import oop.model.SimulationParameters;
 import oop.model.Vector2d;
 import oop.model.WorldMap;
-import oop.model.factories.GenomeFactory;
 import oop.model.listners.SimulationStatisticListener;
 
 import java.util.*;
@@ -40,6 +31,8 @@ public class SimulationPresenter implements SimulationStatisticListener {
 
     @FXML
     private GridPane gridPane;
+    @FXML
+    private ListView<String> mostCommonGenotypes;
 
     private final List<WorldElementBox> worldElementBoxes = new LinkedList<>();
     public void setMap(WorldMap map) {
@@ -89,23 +82,19 @@ public class SimulationPresenter implements SimulationStatisticListener {
     }
 
     public void forceUpdateWorldElementBoxes(){
-        if (simulation.isPaused())
-            for (WorldElementBox worldElementBox : worldElementBoxes){
-                worldElementBox.setPauseBackground(mostPopularGenome);
-            }
-        else{
-            for (WorldElementBox worldElementBox : worldElementBoxes){
-                worldElementBox.setBackground();
-            }
+        for (WorldElementBox worldElementBox : worldElementBoxes){
+            worldElementBox.update();
         }
     }
 
     @FXML
     private void onSimulationPauseClicked() {
         simulation.changePause();
-
         forceUpdateWorldElementBoxes();
+    }
 
+    public Genome getMostPopularGenome() {
+        return mostPopularGenome;
     }
 
     private void clearGrid(){
@@ -117,18 +106,31 @@ public class SimulationPresenter implements SimulationStatisticListener {
     @Override
     public void simulationStatisticChanged(SimulationStatistics simulationStatistics, String message) {
         Map<Genome, Integer> genomePopularity = simulationStatistics.getGenomePopularity();
-        updateMostPopularGenome(genomePopularity);
+        showGenotypePopularity(genomePopularity);
 
     }
 
-    private void updateMostPopularGenome(Map<Genome, Integer> genomePopularity){
-        for (Genome key : genomePopularity.keySet()) {
-            if (mostPopularGenome == null || !genomePopularity.containsKey(mostPopularGenome)){
-                mostPopularGenome = key;
-            }
-            else if (genomePopularity.get(mostPopularGenome) < genomePopularity.get(key)){
-                mostPopularGenome = key;
-            }
+    private void showGenotypePopularity(Map<Genome, Integer> genomePopularity){
+
+        List<Map.Entry<Genome, Integer>> listOfMostPopularGenomes = genomePopularity.entrySet()
+                .stream()
+                .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
+                .toList();
+
+        List<Map.Entry<String, Integer>> listOfMostPopularsGenes = listOfMostPopularGenomes.stream()
+                .map(entry -> Map.entry(entry.getKey().toString(), entry.getValue()))
+                .toList();
+
+        ObservableList<String> genotypes = FXCollections.observableArrayList();;
+
+        for (Map.Entry<String, Integer> genotypeAndValue : listOfMostPopularsGenes){
+            genotypes.add(genotypeAndValue.getKey() + ": " + genotypeAndValue.getValue());
         }
+
+        mostPopularGenome = listOfMostPopularGenomes.get(0).getKey();
+
+        Platform.runLater(() -> {
+            mostCommonGenotypes.setItems(genotypes);
+        });
     }
 }
