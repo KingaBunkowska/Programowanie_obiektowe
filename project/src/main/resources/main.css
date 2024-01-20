@@ -37,17 +37,10 @@ button {
     -fx-border-radius: 100px;
 }
 
-#moveLabel {
-    -fx-font-size: 18;
-    -fx-font-weight: bold;
-}
-
 #gridPane {
     -fx-hgap: 10;
     -fx-vgap: 10;
 }
-
-
 
 #start {
     -fx-pref-width: 256;
@@ -62,13 +55,13 @@ button {
 .small-spinner .spinner-arrow,
 .small-spinner .spinner-increment-button,
 .small-spinner .spinner-decrement-button {
-    -fx-pref-height: 15px; /* Adjust the height of the arrows */
-    -fx-padding: 1px 4px; /* Adjust the padding around the arrows */
+    -fx-pref-height: 15px;
+    -fx-padding: 1px 4px;
 }
 
 .small-spinner .spinner-text-field {
-    -fx-pref-height: 15px; /* Adjust the height of the text field */
-    -fx-font-size: 10px; /* Adjust the font size of the text field */
+    -fx-pref-height: 15px;
+    -fx-font-size: 10px;
 }
 
 .root {
@@ -87,7 +80,7 @@ button {
 }
 
 .inputDescription {
-    -fx-font-size: 12;
+    -fx-font-size: 14;
     -fx-pref-height: 10;
 }
 

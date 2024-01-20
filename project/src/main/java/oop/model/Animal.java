@@ -2,6 +2,8 @@ package oop.model;
 
 import oop.model.factories.ClassicGenomeFactory;
 import oop.model.factories.GenomeFactory;
+import oop.model.listners.AnimalListener;
+import oop.model.listners.SimulationStatisticListener;
 
 import javax.management.InvalidAttributeValueException;
 import java.util.*;
@@ -20,6 +22,8 @@ public class Animal{
     private final int id;
     private static int currentId=0;
     private int dateOfDeath;
+
+    private Optional<AnimalListener> listener = Optional.empty();
 
     private SimulationParameters simulationParameters;
 
@@ -159,5 +163,17 @@ public class Animal{
 
     public int getDateOfDeath() {
         return dateOfDeath;
+    }
+
+    private void updateListener(String message){
+        listener.ifPresent(animalListener -> animalListener.animalStatisticChanged(message));
+    }
+
+    public void addListener(AnimalListener listener){
+        this.listener = Optional.of(listener);
+    }
+
+    public void removeListener(){
+        this.listener = Optional.empty();
     }
 }

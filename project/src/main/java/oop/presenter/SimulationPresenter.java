@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -11,28 +12,33 @@ import javafx.scene.layout.RowConstraints;
 import oop.Simulation;
 import oop.SimulationApp;
 import oop.SimulationStatistics;
+import oop.model.Animal;
 import oop.model.Genome;
 import oop.model.Vector2d;
 import oop.model.WorldMap;
+import oop.model.listners.AnimalListener;
 import oop.model.listners.SimulationStatisticListener;
 
 import java.util.*;
 
-public class SimulationPresenter implements SimulationStatisticListener {
+public class SimulationPresenter implements SimulationStatisticListener, AnimalListener {
 
     static final int CELL_WIDTH = 30;
     static final int CELL_HEIGHT = 30;
     private Simulation simulation;
     private WorldMap worldMap;
-
     private Genome mostPopularGenome;
-    private String[] args;
-    SimulationApp simulationApp;
+    private SimulationApp simulationApp;
+    private Optional<Animal> followedAnimal = Optional.empty();
 
     @FXML
     private GridPane gridPane;
     @FXML
     private ListView<String> mostCommonGenotypes;
+    @FXML
+    private ListView<String> simulationStatisticsListView;
+    @FXML
+    private Button unfollowAnimalButton;
 
     private final List<WorldElementBox> worldElementBoxes = new LinkedList<>();
     public void setMap(WorldMap map) {
@@ -93,6 +99,14 @@ public class SimulationPresenter implements SimulationStatisticListener {
         forceUpdateWorldElementBoxes();
     }
 
+    @FXML
+    private void onUnfollowAnimalClicked(){
+        this.followedAnimal.ifPresent(Animal::removeListener);
+        this.followedAnimal = Optional.empty();
+        this.unfollowAnimalButton.opacityProperty().set(0.3);
+        forceUpdateWorldElementBoxes();
+
+    }
     public Genome getMostPopularGenome() {
         return mostPopularGenome;
     }
@@ -107,6 +121,21 @@ public class SimulationPresenter implements SimulationStatisticListener {
     public void simulationStatisticChanged(SimulationStatistics simulationStatistics, String message) {
         Map<Genome, Integer> genomePopularity = simulationStatistics.getGenomePopularity();
         showGenotypePopularity(genomePopularity);
+
+        ObservableList<String> statistics = FXCollections.observableArrayList(
+                "Number of animals: \t\t" + simulationStatistics.getNumberOfAnimals(),
+                "Number of grasses: \t\t" + simulationStatistics.getNumberOfGrasses(),
+                "Number of empty fields: \t\t" + simulationStatistics.getNumberOfEmptySpaces(),
+                "Mean energy of animals: \t" + String.format("%.2f", simulationStatistics.getAverageEnergyOfLiving()),
+                "Mean number of children: \t" + String.format("%.2f",simulationStatistics.getAverageChildrenOfLiving()),
+                "Mean length of life: \t\t\t" + String.format("%.2f",simulationStatistics.getAverageDaysLivedByDead())
+        );
+
+        Platform.runLater(() -> {
+            simulationStatisticsListView.setItems(statistics);
+        });
+
+
 
     }
 
@@ -132,5 +161,21 @@ public class SimulationPresenter implements SimulationStatisticListener {
         Platform.runLater(() -> {
             mostCommonGenotypes.setItems(genotypes);
         });
+    }
+
+    protected void setFollowedAnimal(Animal animal){
+        followedAnimal.ifPresent(Animal::removeListener);
+        this.followedAnimal = Optional.of(animal);
+        followedAnimal.get().addListener(this);
+        this.unfollowAnimalButton.opacityProperty().set(1);
+    }
+
+    protected Optional<Animal> getFollowedAnimal(){
+        return this.followedAnimal;
+    }
+
+    @Override
+    public void animalStatisticChanged(String message) {
+
     }
 }

@@ -15,6 +15,8 @@ public interface WorldMap extends MoveValidator {
     Optional<Animal> animalAt(Vector2d position);
 
     int getId();
+
+    int getNumberOfEmptyFields();
     MoveGuidelines findPosition(Animal animal, Vector2d desiredPosition);
 
     boolean isOccupiedByGrass(Vector2d position);

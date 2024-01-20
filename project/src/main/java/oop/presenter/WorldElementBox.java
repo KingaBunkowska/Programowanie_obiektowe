@@ -3,6 +3,7 @@ package oop.presenter;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -13,6 +14,8 @@ import oop.Simulation;
 import oop.model.Animal;
 import oop.model.MapField;
 import oop.model.listners.MapFieldChangeListener;
+
+import java.util.Collections;
 
 public class WorldElementBox extends VBox implements MapFieldChangeListener {
 
@@ -42,11 +45,11 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
 
         mapField.setListener(this);
 
-//        this.setOnMouseClicked(mouseEvent -> {
-//            if(mouseEvent.getButton() == MouseButton.PRIMARY){
-//                handleMouseClicked();
-//            }
-//        });
+        this.setOnMouseClicked(mouseEvent -> {
+            if(mouseEvent.getButton() == MouseButton.PRIMARY){
+                handleMouseClicked();
+            }
+        });
     }
 
     private void updateAnimal() {
@@ -86,6 +89,10 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
             this.setBackground(new Background(new BackgroundFill(Color.rgb(150,0, 200), CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
+        if (this.simulationPresenter.getFollowedAnimal().isPresent() && this.simulationPresenter.getFollowedAnimal().get().getPosition().equals(this.mapField.getPosition())){
+            this.setBackground(new Background(new BackgroundFill(Color.rgb(255,100, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
 //         else if(mapField.hasTrackedAnimal)
     }
 
@@ -102,17 +109,12 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
     }
 
 
-//    private void handleMouseClicked(){
-//        if (!simulation.isPaused()) return;
-//        if(mapField.getTopAnimal().isEmpty()) return;
-//
-//        simulationPresenter.setTracking(true);
-//        simulationPresenter.animalStatsShow.setVisible(true);
-//        Collections.sort(mapField.animals);
-//        Animal animal = mapField.animals.get(mapField.animals.size()-1);
-//        simulationPresenter.setAnimalTracking(animal);
-//        simulationPresenter.animalStatistics();
-//        simulationPresenter.markTrackedAnimal(this);
-//    }
+    private void handleMouseClicked(){
+        if (!simulation.isPaused()) return;
+        if(mapField.getTopAnimal().isEmpty()) return;
+
+        simulationPresenter.setFollowedAnimal(mapField.getTopAnimal().get());
+        update();
+    }
 }
 

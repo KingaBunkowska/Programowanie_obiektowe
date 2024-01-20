@@ -17,7 +17,7 @@
 
     </top>
     <center>
-        <HBox>
+        <HBox alignment="CENTER">
             <VBox>
                 <!-- Width -->
                     <Label text="Width:" styleClass="inputDescription"/>

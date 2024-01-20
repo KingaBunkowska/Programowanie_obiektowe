@@ -13,7 +13,7 @@ public class Simulation implements Runnable{
     private final List<Animal> animals = new LinkedList<>();
     private final List<Animal> deadAnimals = new LinkedList<>();
 
-    private final SimulationStatistics simulationStatistics = new SimulationStatistics();
+    private final SimulationStatistics simulationStatistics = new SimulationStatistics(this);
 
     private boolean isPaused = false;
 
@@ -44,13 +44,15 @@ public class Simulation implements Runnable{
         }
 
         this.simulationParameters = simulationParameters;
+        simulationStatistics.setNumberOfAnimals(animals.size());
+        simulationStatistics.setNumberOfGrasses(map.getGrassesPosition().size());
 
     }
 
     public void run(){
         try {
             while (true) {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 if (!isPaused){
                     runDay();
                     System.out.println(day);
@@ -62,7 +64,7 @@ public class Simulation implements Runnable{
 
     }
 
-    private void runDay(){
+    private void runDay() throws InterruptedException{
         this.cleaningPhase();
         this.movingPhase();
         this.eatingPhase();
@@ -87,25 +89,43 @@ public class Simulation implements Runnable{
                 deadAnimals.add(animal);
                 map.cleanDeadAnimals(animal.getPosition(), animal);
                 animal.becomeDead(day);
+
                 simulationStatistics.removeGenome(animal.getGenome());
+                simulationStatistics.setNumberOfAnimals(animals.size());
+                simulationStatistics.changeSumChildrenOfLiving(-animal.getNumberOfChildren());
+                simulationStatistics.changeEnergyOfLiving(-animal.getEnergy()); //can be a case when animal died having negative energy (Portal Map)
+                simulationStatistics.changeSumDaysLivedByDead(animal.getAge());
             }
         }
     }
 
-    private void movingPhase(){
+    private void movingPhase() throws InterruptedException{
+
         for (Animal animal: animals){
+            simulationStatistics.changeEnergyOfLiving(-animal.getEnergy());
             map.move(animal);
+            simulationStatistics.changeEnergyOfLiving(animal.getEnergy());
+
+            do
+                Thread.sleep(20);
+            while(this.isPaused);
         }
+
+        simulationStatistics.setNumberOfEmptyFields(map.getNumberOfEmptyFields());
     }
 
     private void eatingPhase(){
         List<Vector2d> grassesPosition = map.getGrassesPosition();
+        int numberOfRemovedGrasses = 0;
         try {
 
             for (Vector2d grassPosition : grassesPosition) {
                 if (map.animalAt(grassPosition).isPresent()) {
                     map.animalAt(grassPosition).get().eat();
                     map.removeGrass(grassPosition);
+                    numberOfRemovedGrasses += 1;
+
+                    simulationStatistics.changeEnergyOfLiving(simulationParameters.energyOfGrass());
                 }
             }
         }
@@ -113,6 +133,8 @@ public class Simulation implements Runnable{
             System.out.println("Tried to remove grass from outside the board");
             e.printStackTrace();
         }
+
+        simulationStatistics.setNumberOfGrasses(grassesPosition.size()-numberOfRemovedGrasses);
     }
 
     private void breedingPhase(){
@@ -123,17 +145,23 @@ public class Simulation implements Runnable{
                 Animal child = couple.makeChild(simulationParameters);
                 map.placeAnimal(child);
                 animals.add(child);
+
                 simulationStatistics.addGenome(child.getGenome());
+                simulationStatistics.changeSumChildrenOfLiving(2); // adds child for every parent
+                simulationStatistics.setNumberOfAnimals(animals.size());
+
             }catch (OutOfMapException e) {
                 System.out.println("Exception child appeared out of map");
             }
-
-
         }
+
+
     }
 
     private void plantingPhase(){
         generateGrass(simulationParameters.numberOfGrassesGrowing());
+        simulationStatistics.setNumberOfGrasses(map.getGrassesPosition().size());
+        simulationStatistics.setNumberOfEmptyFields(map.getNumberOfEmptyFields());
     }
 
     private void generateGrass(int noOfGrasses){
@@ -151,6 +179,11 @@ public class Simulation implements Runnable{
             System.out.println("Exception: grass already in position");
             e.printStackTrace();
         }
+
+    }
+
+    public List<Animal> getDeadAnimals() {
+        return deadAnimals;
     }
 
     public SimulationParameters getParameters(){

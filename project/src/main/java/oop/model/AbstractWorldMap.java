@@ -166,6 +166,19 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
+    public int getNumberOfEmptyFields(){
+        int result = 0;
+        for (MapField mapField : board.values()){
+            if (!mapField.isPresentGrass() && mapField.getTopAnimal().isEmpty()){
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public abstract MoveGuidelines findPosition(Animal animal, Vector2d desiredPosition);
+
+
 
 }
