@@ -7,4 +7,6 @@ public interface Genome {
     String getRightPart(int splitting_index);
 
     Object getGenome();
+
+    char getActiveGenomePart();
 }

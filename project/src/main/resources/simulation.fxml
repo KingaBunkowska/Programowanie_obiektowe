@@ -14,16 +14,18 @@
             stylesheets="simulation.css">
 
     <center>
-        <VBox>
-            <GridPane fx:id="gridPane" gridLinesVisible="true"/>
+        <VBox alignment="CENTER">
+            <GridPane fx:id="gridPane" gridLinesVisible="true" alignment="CENTER"/>
         </VBox>
     </center>
     <right>
         <VBox spacing="10">
             <Label text="Most popular genotypes:"/>
-            <ListView fx:id="mostCommonGenotypes" prefHeight="100" prefWidth="150"/>
+            <ListView fx:id="mostCommonGenotypes" prefHeight="70" prefWidth="150"/>
             <Label text="Statistics of simulation:"/>
-            <ListView fx:id="simulationStatisticsListView" prefHeight="140" prefWidth="210"/>
+            <ListView fx:id="simulationStatisticsListView" prefHeight="130" prefWidth="215"/>
+            <Label text="Statistics of followed animal: "/>
+            <ListView fx:id="animalStatisticsListView" prefHeight="150" prefWidth="210"/>
             <HBox spacing="2">
                 <Button fx:id="unfollowAnimalButton" text="UNFOLLOW" onAction="#onUnfollowAnimalClicked" opacity="0.3" alignment="CENTER"/>
                 <Button fx:id="pause" text="PAUSE" onAction="#onSimulationPauseClicked" alignment="CENTER"/>

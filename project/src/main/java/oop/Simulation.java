@@ -46,6 +46,7 @@ public class Simulation implements Runnable{
         this.simulationParameters = simulationParameters;
         simulationStatistics.setNumberOfAnimals(animals.size());
         simulationStatistics.setNumberOfGrasses(map.getGrassesPosition().size());
+        simulationStatistics.changeEnergyOfLiving(animals.size() * simulationParameters.startEnergy());
 
     }
 

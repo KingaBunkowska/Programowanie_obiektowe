@@ -92,4 +92,9 @@ public abstract class AbstractGenome implements Genome{
         return genome;
     }
 
+    @Override
+    public char getActiveGenomePart(){
+        return this.genome.charAt((activeGenomeIndex +1)%genome.length());
+    }
+
 }

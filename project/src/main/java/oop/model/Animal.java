@@ -1,9 +1,6 @@
 package oop.model;
 
-import oop.model.factories.ClassicGenomeFactory;
-import oop.model.factories.GenomeFactory;
 import oop.model.listners.AnimalListener;
-import oop.model.listners.SimulationStatisticListener;
 
 import javax.management.InvalidAttributeValueException;
 import java.util.*;
@@ -16,6 +13,8 @@ public class Animal{
     private int age = 0;
     private int numberOfChildren = 0;
     private int numberOfDescendants = 0;
+
+    private int grassEaten = 0;
 
     private Set<Animal> predecessors = new HashSet <Animal>();
 
@@ -51,7 +50,7 @@ public class Animal{
         this.predecessors = predecessors;
 
         for (Animal animal : predecessors){
-            animal.incrementNumberOfChildren();
+            animal.incrementNumberOfDescendants();
         }
     }
 
@@ -100,6 +99,8 @@ public class Animal{
 
     public void eat(){
         this.energy += simulationParameters.energyOfGrass();
+        grassEaten += 1;
+        updateListener("Grass was eaten");
     }
 
     public int getEnergy(){
@@ -120,6 +121,8 @@ public class Animal{
 
     public void breed(){
         this.energy = this.energy - simulationParameters.energyToBreed();
+        this.numberOfChildren += 1;
+        updateListener("Child was born");
     }
 
     public Genome getGenome(){
@@ -151,14 +154,17 @@ public class Animal{
 
     public void incrementNumberOfDescendants(){
         this.numberOfDescendants++;
+        updateListener("Descendant was born");
     }
 
     public void becomeDead(int currentDay){
         this.dateOfDeath = currentDay;
+        updateListener("Animal become dead");
     }
 
     public void becomeOlder(){
         this.age++;
+        updateListener("Animal become older");
     }
 
     public int getDateOfDeath() {
@@ -171,9 +177,22 @@ public class Animal{
 
     public void addListener(AnimalListener listener){
         this.listener = Optional.of(listener);
+        updateListener("Initial");
     }
 
     public void removeListener(){
         this.listener = Optional.empty();
+    }
+
+    public char getActiveGenomePart() {
+        return this.genome.getActiveGenomePart();
+    }
+
+    public int getGrassEaten() {
+        return grassEaten;
+    }
+
+    public int getNumberOfDescendants() {
+        return numberOfDescendants;
     }
 }

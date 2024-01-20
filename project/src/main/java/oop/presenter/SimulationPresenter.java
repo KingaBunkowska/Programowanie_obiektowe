@@ -39,6 +39,8 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
     private ListView<String> simulationStatisticsListView;
     @FXML
     private Button unfollowAnimalButton;
+    @FXML
+    private ListView<String> animalStatisticsListView;
 
     private final List<WorldElementBox> worldElementBoxes = new LinkedList<>();
     public void setMap(WorldMap map) {
@@ -134,9 +136,6 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
         Platform.runLater(() -> {
             simulationStatisticsListView.setItems(statistics);
         });
-
-
-
     }
 
     private void showGenotypePopularity(Map<Genome, Integer> genomePopularity){
@@ -156,7 +155,8 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
             genotypes.add(genotypeAndValue.getKey() + ": " + genotypeAndValue.getValue());
         }
 
-        mostPopularGenome = listOfMostPopularGenomes.get(0).getKey();
+        if (!listOfMostPopularsGenes.isEmpty())
+            mostPopularGenome = listOfMostPopularGenomes.get(0).getKey();
 
         Platform.runLater(() -> {
             mostCommonGenotypes.setItems(genotypes);
@@ -168,6 +168,7 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
         this.followedAnimal = Optional.of(animal);
         followedAnimal.get().addListener(this);
         this.unfollowAnimalButton.opacityProperty().set(1);
+        forceUpdateWorldElementBoxes();
     }
 
     protected Optional<Animal> getFollowedAnimal(){
@@ -177,5 +178,26 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
     @Override
     public void animalStatisticChanged(String message) {
 
+        if (followedAnimal.isEmpty())return;
+
+        ObservableList<String> statistics = FXCollections.observableArrayList(
+                "Genome: \t\t\t\t" + followedAnimal.get().getGenome(),
+                "Active genome part: \t\t" + followedAnimal.get().getActiveGenomePart(),
+                "Energy: \t\t\t\t\t" + followedAnimal.get().getEnergy(),
+                "Grass eaten: \t\t\t\t" + followedAnimal.get().getGrassEaten(),
+                "Number of children: \t\t" + followedAnimal.get().getNumberOfChildren(),
+                "Number of descendants: \t" + followedAnimal.get().getNumberOfDescendants()
+        );
+
+        if (followedAnimal.get().isDead() && followedAnimal.get().getDateOfDeath()!=0){
+            statistics.add("Date of death: \t\t\t\t" + followedAnimal.get().getDateOfDeath());
+        }
+        else{
+            statistics.add("Age: \t\t\t\t\t" + followedAnimal.get().getAge());
+        }
+
+        Platform.runLater(() -> {
+            animalStatisticsListView.setItems(statistics);
+        });
     }
 }

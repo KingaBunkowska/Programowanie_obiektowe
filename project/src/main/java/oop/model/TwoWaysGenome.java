@@ -30,4 +30,9 @@ public class TwoWaysGenome extends AbstractGenome{
 
         return Character.getNumericValue(genome.charAt(activeGenomeIndex));
     }
+
+    @Override
+    public char getActiveGenomePart(){
+        return genome.charAt(activeGenomeIndex+direction);
+    }
 }

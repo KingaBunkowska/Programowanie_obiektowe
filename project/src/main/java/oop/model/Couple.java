@@ -30,6 +30,8 @@ public class Couple {
 
         HashSet<Animal> childsPredecessors = new HashSet<>(parent1.getPredecessors());
         childsPredecessors.addAll(parent2.getPredecessors());
+        childsPredecessors.add(parent1);
+        childsPredecessors.add(parent2);
 
 
         if (random.nextBoolean()){
