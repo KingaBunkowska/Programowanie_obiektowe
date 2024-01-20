@@ -23,7 +23,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
-    protected final Map<Vector2d, Grass> grasses = new HashMap<>();
+
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -35,7 +35,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         observers.remove(observer);
     }
 
-    protected void mapChanged(String message) {
+    private void mapChanged(String message) {
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this, message);
         }
@@ -55,6 +55,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public Collection<WorldElement> getElements(){
         return Stream.concat(animals.values().stream(), grasses.values().stream())
                 .collect(Collectors.toCollection(LinkedList::new));
+
     }
 
 
@@ -94,14 +95,13 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (animals.containsKey(position)){
             return Optional.of(animals.get(position));
         }
+
         if (grasses.containsKey(position))
             return Optional.of(grasses.get(position));
         return Optional.empty();
+
     }
 
-    public abstract Vector2d getLowerLeft();
-
-    public abstract Vector2d getUpperRight();
 
     @Override
     public Boundary getCurrentBounds() {
@@ -121,4 +121,5 @@ public abstract class AbstractWorldMap implements WorldMap {
                 .sorted(positionComparator)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
+
 }
