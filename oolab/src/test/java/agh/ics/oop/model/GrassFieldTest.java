@@ -33,26 +33,26 @@ public class GrassFieldTest {
         GrassField grassField = new GrassField(0);
 
         // zero elements
-        assertEquals(new Vector2d(0, 0), grassField.getLowerLeft());
-        assertEquals(new Vector2d(0, 0), grassField.getUpperRight());
+        assertEquals(new Vector2d(0, 0), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(0, 0), grassField.getCurrentBounds().upperRight());
 
         grassField.placeGrass(new Grass(new Vector2d(1, 1)));
 
         // one element
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(1, 1), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().upperRight());
 
         grassField.placeGrass(new Grass(new Vector2d(1, 100)));
 
         // two elements (in line)
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(1, 100), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(1, 100), grassField.getCurrentBounds().upperRight());
 
         grassField.placeGrass(new Grass(new Vector2d(4, 5)));
 
         // three elements
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(4, 100), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(4, 100), grassField.getCurrentBounds().upperRight());
 
         Animal animal = new Animal(new Vector2d(4, 6));
         try{
@@ -63,21 +63,21 @@ public class GrassFieldTest {
         }
 
         // animal in old boarders
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(4, 100), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(4, 100), grassField.getCurrentBounds().upperRight());
 
         grassField.move(animal, MoveDirection.RIGHT);
         grassField.move(animal, MoveDirection.FORWARD);
 
         //animal moved outside
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(5, 100), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(5, 100), grassField.getCurrentBounds().upperRight());
 
         grassField.move(animal, MoveDirection.BACKWARD);
 
         //animal returned
-        assertEquals(new Vector2d(1, 1), grassField.getLowerLeft());
-        assertEquals(new Vector2d(4, 100), grassField.getUpperRight());
+        assertEquals(new Vector2d(1, 1), grassField.getCurrentBounds().lowerLeft());
+        assertEquals(new Vector2d(4, 100), grassField.getCurrentBounds().upperRight());
     }
 
     @Test
