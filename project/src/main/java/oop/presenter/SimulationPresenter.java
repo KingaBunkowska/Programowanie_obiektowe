@@ -107,6 +107,7 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
         this.followedAnimal = Optional.empty();
         this.unfollowAnimalButton.opacityProperty().set(0.3);
         forceUpdateWorldElementBoxes();
+        clearFollowedAnimalListView();
 
     }
     public Genome getMostPopularGenome() {
@@ -198,6 +199,12 @@ public class SimulationPresenter implements SimulationStatisticListener, AnimalL
 
         Platform.runLater(() -> {
             animalStatisticsListView.setItems(statistics);
+        });
+    }
+
+    private void clearFollowedAnimalListView(){
+        Platform.runLater(() -> {
+            animalStatisticsListView.setItems(FXCollections.observableArrayList());
         });
     }
 }

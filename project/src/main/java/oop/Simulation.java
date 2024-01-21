@@ -56,11 +56,10 @@ public class Simulation implements Runnable{
                 Thread.sleep(100);
                 if (!isPaused){
                     runDay();
-                    System.out.println(day);
                 }
             }
         }catch (InterruptedException e) {
-            System.out.println("Simulation ended its existance");
+            System.out.println("Simulation was closed");
         }
 
     }
