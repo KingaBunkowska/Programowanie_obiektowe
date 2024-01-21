@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Optional;
+
 public class RectangularMap extends AbstractWorldMap {
 
     private final Vector2d boardStart = new Vector2d(0, 0);
@@ -12,8 +14,11 @@ public class RectangularMap extends AbstractWorldMap {
 
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        if (animals.containsKey(position))
+            return Optional.of(animals.get(position));
+
+        return Optional.empty();
     }
 
     @Override

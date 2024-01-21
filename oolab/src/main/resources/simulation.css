@@ -1,0 +1,39 @@
+BorderPane{
+    -fx-alignment: center;
+    -fx-background-color: rgb(59, 64, 66);
+    -fx-padding: 10;
+}
+
+#gridPane{
+    -fx-alignment: center;
+}
+
+VBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+
+
+#gridPane Label {
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+
+#moveLabel{
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+
+#start {
+    -fx-pref-width: 256;
+    -fx-pref-height: 32;
+    -fx-background-color: 'green';
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: 'white';
+}
+
+

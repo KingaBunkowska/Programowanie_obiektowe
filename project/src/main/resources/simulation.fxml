@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="550.0" minWidth="850.0"
+            fx:controller="oop.presenter.SimulationPresenter"
+            stylesheets="simulation.css">
+
+    <center>
+        <VBox alignment="CENTER">
+            <GridPane fx:id="gridPane" gridLinesVisible="true" alignment="CENTER"/>
+        </VBox>
+    </center>
+    <right>
+        <VBox spacing="10">
+            <Label text="Most popular genotypes:"/>
+            <ListView fx:id="mostCommonGenotypes" prefHeight="70" prefWidth="150"/>
+            <Label text="Statistics of simulation:"/>
+            <ListView fx:id="simulationStatisticsListView" prefHeight="130" prefWidth="215"/>
+            <Label text="Statistics of followed animal: "/>
+            <ListView fx:id="animalStatisticsListView" prefHeight="150" prefWidth="210"/>
+            <HBox spacing="2">
+                <Button fx:id="unfollowAnimalButton" text="UNFOLLOW" onAction="#onUnfollowAnimalClicked" opacity="0.3" alignment="CENTER"/>
+                <Button fx:id="pause" text="PAUSE" onAction="#onSimulationPauseClicked" alignment="CENTER"/>
+            </HBox>
+        </VBox>
+    </right>
+</BorderPane>
+
