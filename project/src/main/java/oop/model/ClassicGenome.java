@@ -1,6 +1,6 @@
 package oop.model;
 
-public class ClassicGenome extends AbstractGenome {
+public class ClassicGenome extends AbstractGenome { // ta klasa nic nie wnosi
     public ClassicGenome(String genes){
         super(genes);
     }

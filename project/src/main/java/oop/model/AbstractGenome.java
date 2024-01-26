@@ -1,14 +1,14 @@
 package oop.model;
 
-import java.util.*;
+import java.util.*; // proszę tak nie importować
 
 public abstract class AbstractGenome implements Genome{
 
-    protected final String genome;
-    protected final Random random = new Random();
+    protected final String genome; // String?
+    protected static final Random random = new Random();
     protected int activeGenomeIndex = -1;
 
-    public AbstractGenome(String left_part, String right_part, int minimum_mutations, int maximum_mutations){
+    public AbstractGenome(String left_part, String right_part, int minimum_mutations, int maximum_mutations){ // String?
 
         int numberOfMutations;
 
@@ -76,7 +76,7 @@ public abstract class AbstractGenome implements Genome{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Genome.class != o.getClass()) return false;
 
         Genome genome = (Genome) o;
         return Objects.equals(this.genome, genome.getGenome());

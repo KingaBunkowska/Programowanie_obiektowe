@@ -7,7 +7,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     private static int nextId = 0;
     private final int id;
 
-    private final Random random = new Random();
+    private static final Random random = new Random();
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
     private final Vector2d preferableLowerLeft;

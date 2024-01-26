@@ -151,7 +151,7 @@ public class Simulation implements Runnable{
                 simulationStatistics.setNumberOfAnimals(animals.size());
 
             }catch (OutOfMapException e) {
-                System.out.println("Exception child appeared out of map");
+                System.out.println("Exception child appeared out of map"); // i działamy dalej?
             }
         }
 

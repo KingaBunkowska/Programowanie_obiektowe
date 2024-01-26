@@ -20,7 +20,7 @@ import java.util.List;
 public class SimulationApp extends Application{
     private List<Thread> threads = new LinkedList<>();
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception { // ?
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("main.fxml"));
@@ -82,7 +82,7 @@ public class SimulationApp extends Application{
             System.out.println("Error with loading");
             e.printStackTrace();
         } catch (OutOfMapException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); // skoro Pani opakowuje ten wyjątek, to może OutOfMap powinien dziedziczyć z Runtime?
         }
     }
 }

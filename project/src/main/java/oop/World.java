@@ -22,7 +22,7 @@ public class World {
             Simulation simulation = new Simulation(worldMap, 3, simulationParameters);
         }
         catch (OutOfMapException e){
-            System.out.println("Exception while creating simulation");
+            System.out.println("Exception while creating simulation"); // ale działamy dalej?
             e.printStackTrace();
         }
 

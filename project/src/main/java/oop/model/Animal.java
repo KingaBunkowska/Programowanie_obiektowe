@@ -16,7 +16,7 @@ public class Animal{
 
     private int grassEaten = 0;
 
-    private Set<Animal> predecessors = new HashSet <Animal>();
+    private Set<Animal> predecessors = new HashSet <Animal>(); // wszyscy przodkowie w historii?
 
     private final int id;
     private static int currentId=0;

@@ -77,21 +77,22 @@ public class WorldElementBox extends VBox implements MapFieldChangeListener {
     }
 
     private void setBackground(){
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(255,255,255), CornerRadii.EMPTY, Insets.EMPTY)));
+        Color color = Color.rgb(255,255,255);
         if(mapField.isPresentGrass())
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(0,150,0), CornerRadii.EMPTY, Insets.EMPTY)));
+            color = Color.rgb(0,150,0);
 
         if (isPreferableField && simulation.isPaused()){
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(131,255, 100), CornerRadii.EMPTY, Insets.EMPTY)));
+            color = Color.rgb(131,255, 100);
         }
 
         if (mapField.hasAnimalWithGenome(simulationPresenter.getMostPopularGenome()) && simulation.isPaused()){
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(150,0, 200), CornerRadii.EMPTY, Insets.EMPTY)));
+            color = Color.rgb(150,0, 200);
         }
 
         if (this.simulationPresenter.getFollowedAnimal().isPresent() && this.simulationPresenter.getFollowedAnimal().get().getPosition().equals(this.mapField.getPosition())){
-            this.setBackground(new Background(new BackgroundFill(Color.rgb(255,100, 0), CornerRadii.EMPTY, Insets.EMPTY)));
+            color = Color.rgb(255,100, 0);
         }
+        this.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 
 //         else if(mapField.hasTrackedAnimal)
     }

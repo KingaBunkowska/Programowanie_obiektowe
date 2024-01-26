@@ -23,7 +23,7 @@ public class Couple {
         return parent2;
     }
 
-    public Animal makeChild(SimulationParameters simulationParameters){
+    public Animal makeChild(SimulationParameters simulationParameters){ // czemu rodziców przekazujemy do konstruktora, a parametry teraz?
 
         parent1.breed();
         parent2.breed();

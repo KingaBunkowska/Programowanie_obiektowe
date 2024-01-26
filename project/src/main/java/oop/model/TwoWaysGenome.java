@@ -33,6 +33,6 @@ public class TwoWaysGenome extends AbstractGenome{
 
     @Override
     public char getActiveGenomePart(){
-        return genome.charAt(activeGenomeIndex+direction);
+        return genome.charAt(activeGenomeIndex+direction); // nieczytelne; po co ta metoda w ogóle jest nadpisana?
     }
 }
