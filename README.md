@@ -1,8 +1,3 @@
-# Programowanie Obiektowe 2023
-### Kinga Bunkowska
-Grupa 4, 9:40 piątek 
-#### Nazwa zwierzątka: Dźwiedź
-Profil z ćwiczeń z gita: https://gitexercises.fracz.com/committer/aba918262e4e2674ea98f665a4c9986f3bdb8e42
+# Programowanie obiektowe
 
-
-
+This repository houses code developed during the course "Programowanie obiektowe" (Objected-oriented Programming) in the academic year 2023/2024. It encompasses solutions to laboratory assignments found within the "oolab" directory, along with an independent project crafted in alignment with provided guidelines.
